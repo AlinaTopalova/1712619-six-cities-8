@@ -1,19 +1,18 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { AppRoute } from '../../const';
-import MainPage from '../main-page/main-page';
-import LoginPage from '../login-page/login-page';
-import FavoritesPage from '../favorites-page/favorites-page';
-import OfferPage from '../offer-page/offer-page';
-import NotFoundPage from '../not-found-page/not-found-page';
-import PrivateRoute from '../private-route/private-route';
+import { AppRoute } from 'const';
+import MainPage from 'components/main-page/main-page';
+import LoginPage from 'components/login-page/login-page';
+import FavoritesPage from 'components/favorites-page/favorites-page';
+import OfferPage from 'components/offer-page/offer-page';
+import NotFoundPage from 'components/not-found-page/not-found-page';
+import PrivateRoute from 'components/private-route/private-route';
 
 type AppProps = {
   offersAmount: number,
 }
 
-const authorizationStatus = false;
-
-export default function App({ offersAmount } : AppProps): JSX.Element {
+export default function App(props: AppProps): JSX.Element {
+  const { offersAmount } = props;
   return (
     <BrowserRouter>
       <Switch>
@@ -23,12 +22,10 @@ export default function App({ offersAmount } : AppProps): JSX.Element {
         <Route exact path={AppRoute.SignIn}>
           <LoginPage/>
         </Route>
-        <PrivateRoute exact path={AppRoute.Favorites}
-          authorizationStatus={authorizationStatus}
-        >
+        <PrivateRoute exact path={AppRoute.Favorites}>
           <FavoritesPage/>
         </PrivateRoute>
-        <Route exact path={AppRoute.Offer}>
+        <Route exact path={`${AppRoute.Offer}/:id`}>
           <OfferPage/>
         </Route>
         <Route>

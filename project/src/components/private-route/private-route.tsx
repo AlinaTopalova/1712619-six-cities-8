@@ -1,14 +1,14 @@
 import { Route, RouteProps, Redirect } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute } from 'const';
 
-type AuthorizationStatus = boolean;
+const isAuthorized = true;
 
 type PrivateRouteProps = RouteProps & {
-  authorizationStatus: AuthorizationStatus,
+  authorizationStatus?: typeof isAuthorized,
 }
 
 export default function PrivateRoute(props: PrivateRouteProps): JSX.Element {
-  const { exact, path, authorizationStatus, children} = props;
+  const { exact, path, authorizationStatus = isAuthorized, children} = props;
   return (
     <Route exact={exact} path={path}>
       {authorizationStatus? children : <Redirect to={AppRoute.SignIn}/>}
