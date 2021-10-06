@@ -18,7 +18,7 @@ export default function App(props: AppProps): JSX.Element {
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <MainPage offersAmount = {offersAmount}/>
+          <MainPage offersAmount={offersAmount}/>
         </Route>
         <Route exact path={AppRoute.SignIn}>
           <LoginPage />

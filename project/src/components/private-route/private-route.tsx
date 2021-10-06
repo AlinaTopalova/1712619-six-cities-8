@@ -1,7 +1,7 @@
 import { Route, RouteProps, Redirect } from 'react-router-dom';
 import { AppRoute } from 'const';
 
-const isAuthorized = true;
+const isAuthorized = false;
 
 type PrivateRouteProps = RouteProps;
 
