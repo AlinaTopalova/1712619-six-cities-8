@@ -1,19 +1,20 @@
 import Logo from 'components/logo/logo';
 
 type HeaderProps = {
-  showNav?: boolean,
+  showUserBlock?: boolean,
 }
 
 export default function Header(props: HeaderProps): JSX.Element {
-  const {showNav = true} = props;
+  const {showUserBlock = true} = props;
+
   return (
     <header className="header">
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <Logo/>
+            <Logo />
           </div>
-          {showNav &&
+          {showUserBlock &&
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">

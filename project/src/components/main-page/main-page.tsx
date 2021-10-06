@@ -8,6 +8,7 @@ type MainPageProps = {
 
 export default function MainPage(props: MainPageProps): JSX.Element {
   const { offersAmount } = props;
+
   return(
     <div className="page page--gray page--main">
       <Header />

@@ -1,6 +1,7 @@
 import Header from 'components/header/header';
 
 export default function FavoritesPage(): JSX.Element {
+
   return (
     <div className="page">
       <Header />

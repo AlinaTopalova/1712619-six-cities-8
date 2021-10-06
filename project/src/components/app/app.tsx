@@ -13,6 +13,7 @@ type AppProps = {
 
 export default function App(props: AppProps): JSX.Element {
   const { offersAmount } = props;
+
   return (
     <BrowserRouter>
       <Switch>
@@ -20,16 +21,16 @@ export default function App(props: AppProps): JSX.Element {
           <MainPage offersAmount = {offersAmount}/>
         </Route>
         <Route exact path={AppRoute.SignIn}>
-          <LoginPage/>
+          <LoginPage />
         </Route>
         <PrivateRoute exact path={AppRoute.Favorites}>
-          <FavoritesPage/>
+          <FavoritesPage />
         </PrivateRoute>
         <Route exact path={`${AppRoute.Offer}/:id`}>
-          <OfferPage/>
+          <OfferPage />
         </Route>
         <Route>
-          <NotFoundPage/>
+          <NotFoundPage />
         </Route>
       </Switch>
     </BrowserRouter>
