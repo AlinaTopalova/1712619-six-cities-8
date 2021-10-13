@@ -37,7 +37,8 @@ export default function FavoritesPage(props: FavoritesPageProps): JSX.Element {
               </div>
             </section>
           </div>
-        </main>) : (
+        </main>
+      ) : (
         <main className="page__main page__main--favorites">
           <div className="page__favorites-container container">
             <section className="favorites">

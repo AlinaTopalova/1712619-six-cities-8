@@ -1,5 +1,7 @@
 import { ChangeEvent, Fragment, useState} from 'react';
 
+const MIN_COMMENT_LENGTH = 50;
+
 const Ratings = [
   {
     title: 'perfect',
@@ -27,7 +29,7 @@ export default function CommentsForm(): JSX.Element {
   const [rating, setRating] = useState('');
   const [comment, setСomment] = useState('');
 
-  const isFormCompleted = comment.length < 50 || rating === '';
+  const isFormCompleted = comment.length > MIN_COMMENT_LENGTH && Boolean(rating);
 
   const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setRating(evt.target.value);
@@ -80,7 +82,7 @@ export default function CommentsForm(): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={isFormCompleted}
+          disabled={!isFormCompleted}
         >
           Submit
         </button>
