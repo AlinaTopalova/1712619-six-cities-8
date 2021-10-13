@@ -1,10 +1,18 @@
-/* eslint-disable no-console */
 import { Link } from 'react-router-dom';
 import { Offer } from 'types/offers';
-import { AppRoute, RATING_WIDTH_PERCENT } from 'const';
+import { AppRoute } from 'const';
+import { calcRatingStarsWidth } from 'utils';
 
-const PREVIEW_IMAGE_WIDTH = '260';
-const PREVIEW_IMAGE_HEIGHT = '200';
+const PreviewImgSize = {
+  default: {
+    height: '200',
+    width: '260',
+  },
+  favorite: {
+    height: '110',
+    width: '150',
+  },
+};
 
 type OfferCardProps = {
   offerData: Offer,
@@ -25,8 +33,8 @@ function OfferCard(props: OfferCardProps): JSX.Element {
     rootClassName = '',
     imageWrapperClassName = '',
     infoWrapperClassName = '',
-    imageWidth = PREVIEW_IMAGE_WIDTH,
-    imageHeight = PREVIEW_IMAGE_HEIGHT,
+    imageHeight = PreviewImgSize.default.height,
+    imageWidth = PreviewImgSize.default.width,
     onMouseEnter,
     onMouseLeave,
   } = props;
@@ -46,13 +54,9 @@ function OfferCard(props: OfferCardProps): JSX.Element {
       onMouseLeave={handleMouseLeave}
     >
       {offerData.isPremium && (
-        <div className="place-card__mark">
-          <span>Premium</span>
-        </div>
+        <div className="place-card__mark"><span>Premium</span></div>
       )}
-      <div
-        className={`place-card__image-wrapper ${imageWrapperClassName}`}
-      >
+      <div className={`place-card__image-wrapper ${imageWrapperClassName}`}>
         <img
           className="place-card__image"
           src={offerData.previewImage}
@@ -84,11 +88,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span
-              style={{
-                width: `${offerData.rating * RATING_WIDTH_PERCENT}%`,
-              }}
-            />
+            <span style={{width: calcRatingStarsWidth(offerData.rating)}}/>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
@@ -106,8 +106,8 @@ function OfferCard(props: OfferCardProps): JSX.Element {
 function FavoriteCard(props: SpecificOfferCardProps) {
   return (
     <OfferCard
-      imageHeight="110"
-      imageWidth="150"
+      imageHeight={PreviewImgSize.favorite.height}
+      imageWidth={PreviewImgSize.favorite.width}
       imageWrapperClassName="favorites__image-wrapper"
       infoWrapperClassName="favorites__card-info"
       rootClassName="favorites__card"

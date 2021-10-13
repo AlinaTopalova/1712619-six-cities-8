@@ -4,5 +4,3 @@ export const enum AppRoute {
   Favorites = '/favorites',
   Offer = '/offer',
 }
-
-export const RATING_WIDTH_PERCENT = 20;

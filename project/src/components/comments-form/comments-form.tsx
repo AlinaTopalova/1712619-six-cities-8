@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { ChangeEvent, Fragment, useState} from 'react';
 
 const Ratings = [
@@ -25,20 +24,17 @@ const Ratings = [
 ] as const;
 
 export default function CommentsForm(): JSX.Element {
-  const [starsAmount, setStarsAmount] = useState('');
-  const [commentText, setcommentText] = useState('');
+  const [rating, setRating] = useState('');
+  const [comment, setСomment] = useState('');
 
-  let isFormNotCompleted = true;
-  if (commentText.length > 50 && starsAmount !== '') {
-    isFormNotCompleted = false;
-  }
+  const isFormCompleted = comment.length < 50 || rating === '';
 
-  const handleChangeStars = (evt: ChangeEvent<HTMLInputElement>) => {
-    setStarsAmount(evt.target.value);
+  const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    setRating(evt.target.value);
   };
 
-  const handleChangeCommentText = (evt: ChangeEvent<HTMLTextAreaElement>) => {
-    setcommentText(evt.target.value);
+  const handleCommentChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
+    setСomment(evt.target.value);
   };
 
   return (
@@ -50,13 +46,17 @@ export default function CommentsForm(): JSX.Element {
             <input
               className="form__rating-input visually-hidden"
               name="rating"
-              checked={value === starsAmount}
+              checked={value === rating}
               value={value}
               id={`${value}-stars`}
               type="radio"
-              onChange={handleChangeStars}
+              onChange={handleRatingChange}
             />
-            <label htmlFor={`${value}-stars`} className="reviews__rating-label form__rating-label" title={title}>
+            <label
+              htmlFor={`${value}-stars`}
+              className="reviews__rating-label form__rating-label"
+              title={title}
+            >
               <svg className="form__star-image" width="37" height="33">
                 <use xlinkHref="#icon-star" />
               </svg>
@@ -68,16 +68,22 @@ export default function CommentsForm(): JSX.Element {
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
-        value={commentText}
+        value={comment}
         placeholder="Tell how was your stay, what you like and what can be improved"
-        onChange={handleChangeCommentText}
+        onChange={handleCommentChange}
         maxLength={300}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={isFormNotCompleted}>Submit</button>
+        <button
+          className="reviews__submit form__submit button"
+          type="submit"
+          disabled={isFormCompleted}
+        >
+          Submit
+        </button>
       </div>
     </form>
   );

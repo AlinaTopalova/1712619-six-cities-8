@@ -12,7 +12,6 @@ import PrivateRoute from 'components/private-route/private-route';
 type AppProps = {
   offersData: Offer[],
   reviewsData: Review[],
-
 }
 
 export default function App(props: AppProps): JSX.Element {

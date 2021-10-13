@@ -1,8 +1,7 @@
-/* eslint-disable no-console */
 import { useParams } from 'react-router';
-import { RATING_WIDTH_PERCENT } from 'const';
 import { Offer } from 'types/offers';
 import { Review } from 'types/reviews';
+import { calcRatingStarsWidth } from 'utils';
 import Header from 'components/header/header';
 import CommentsForm from 'components/comments-form/comments-form';
 import OfferCard from 'components/offer-card/offer-card';
@@ -19,7 +18,6 @@ export default function OfferPage(props: OfferPageProps): JSX.Element {
   const { offersData, reviewsData } = props;
 
   const getFormattedData = (date: string) => new Date(date).toLocaleDateString('en-US', {day: 'numeric', month: 'long'});
-  console.log('new Date(review.date)', new Date('2021-09-26T13:29:26.176Z').getFullYear());
 
   const { offerId } = useParams<{ offerId: string }>();
 
@@ -68,7 +66,7 @@ export default function OfferPage(props: OfferPageProps): JSX.Element {
                 <div className="property__rating rating">
                   <div className="property__stars rating__stars">
                     <span
-                      style={{width: `${currentOffer.rating * RATING_WIDTH_PERCENT}%`}}
+                      style={{width: calcRatingStarsWidth(currentOffer.rating)}}
                     />
                     <span className="visually-hidden">Rating</span>
                   </div>
@@ -150,7 +148,7 @@ export default function OfferPage(props: OfferPageProps): JSX.Element {
                         <div className="reviews__info">
                           <div className="reviews__rating rating">
                             <div className="reviews__stars rating__stars">
-                              <span style={{width: `${review.rating * RATING_WIDTH_PERCENT}%`}}></span>
+                              <span style={{width: calcRatingStarsWidth(review.rating)}}></span>
                               <span className="visually-hidden">Rating</span>
                             </div>
                           </div>

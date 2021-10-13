@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { Offer } from 'types/offers';
 import Header from 'components/header/header';
 import OfferCard from 'components/offer-card/offer-card';
@@ -13,7 +12,7 @@ type GrouppedOffers = Record<string, Offer[]>
 export default function FavoritesPage(props: FavoritesPageProps): JSX.Element {
   const { offersData } = props;
 
-  const favoriteOffers = offersData.filter((offer) => offer.isFavorite === true);
+  const favoriteOffers = offersData.filter((offer) => offer.isFavorite);
 
   const groupedFavoriteOffers = favoriteOffers.reduce<GrouppedOffers>((res, offer) => {
     const { name } = offer.city;
@@ -27,7 +26,7 @@ export default function FavoritesPage(props: FavoritesPageProps): JSX.Element {
   return (
     <div className="page">
       <Header />
-      {(favoriteOffers.length === 0)?
+      {(favoriteOffers.length === 0) ? (
         <main className="page__main page__main--favorites page__main--favorites-empty">
           <div className="page__favorites-container container">
             <section className="favorites favorites--empty">
@@ -38,7 +37,7 @@ export default function FavoritesPage(props: FavoritesPageProps): JSX.Element {
               </div>
             </section>
           </div>
-        </main> :
+        </main>) : (
         <main className="page__main page__main--favorites">
           <div className="page__favorites-container container">
             <section className="favorites">
@@ -66,7 +65,8 @@ export default function FavoritesPage(props: FavoritesPageProps): JSX.Element {
               </ul>
             </section>
           </div>
-        </main> }
+        </main>
+      )}
       <Footer />
     </div>
   );
