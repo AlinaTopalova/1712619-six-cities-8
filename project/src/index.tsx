@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/app/app';
-
-const Setting = {
-  OFFERS_AMOUNT: 5,
-};
+import App from 'components/app/app';
+import { offersData } from 'mocks/offers';
+import { reviewsData } from 'mocks/reviews';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App offersAmount = {Setting.OFFERS_AMOUNT}/>
+    <App offersData={offersData} reviewsData={reviewsData} />
   </React.StrictMode>,
-  document.getElementById('root'));
+  document.getElementById('root'),
+);
