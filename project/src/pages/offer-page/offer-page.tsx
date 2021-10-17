@@ -5,7 +5,7 @@ import { calcRatingStarsWidth } from 'utils';
 import Header from 'shared/header/header';
 import CommentsForm from 'pages/offer-page/comments-form/comments-form';
 import OfferCard from 'shared/offer-card/offer-card';
-import OffersMap from 'shared/map/offersMap';
+import OffersMap from 'shared/offers-map/offers-map';
 
 const MAX_AMOUNT_IMAGES = 6;
 const MAX_AMOUNT_NEAR_PLACES = 3;

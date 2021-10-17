@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Offer } from 'types/offers';
 import OfferCard from 'shared/offer-card/offer-card';
-import OffersMap from 'shared/map/offersMap';
+import OffersMap from 'shared/offers-map/offers-map';
 
 type OffersListProps = {
   offersData: Offer[],
