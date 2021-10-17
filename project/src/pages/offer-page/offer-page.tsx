@@ -1,10 +1,11 @@
 import { useParams } from 'react-router';
 import { Offer } from 'types/offers';
-import { Review } from 'types/reviews';
+import { OfferReview } from 'types/reviews';
 import { calcRatingStarsWidth } from 'utils';
 import Header from 'shared/header/header';
-import CommentsForm from 'pages/offer-page/comments-form/comments-form';
 import OfferCard from 'shared/offer-card/offer-card';
+import Reviews from './reviews/reviews';
+import ReviewForm from './review-form/review-form';
 import OffersMap from 'shared/offers-map/offers-map';
 
 const MAX_AMOUNT_IMAGES = 6;
@@ -12,13 +13,11 @@ const MAX_AMOUNT_NEAR_PLACES = 3;
 
 type OfferPageProps = {
   offersData: Offer[],
-  reviewsData: Review[],
+  reviewsData: OfferReview[],
 }
 
 export default function OfferPage(props: OfferPageProps): JSX.Element {
   const { offersData, reviewsData } = props;
-
-  const getFormattedData = (date: string) => new Date(date).toLocaleDateString('en-US', {day: 'numeric', month: 'long'});
 
   const { offerId } = useParams<{ offerId: string }>();
 
@@ -129,40 +128,8 @@ export default function OfferPage(props: OfferPageProps): JSX.Element {
                   </div>
                 </div>
                 <section className="property__reviews reviews">
-                  <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
-                  <ul className="reviews__list">
-                    {reviews.map((review) => (
-                      <li className="reviews__item" key={review.user.id}>
-                        <div className="reviews__user user">
-                          <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                            <img
-                              className="reviews__avatar user__avatar"
-                              src={review.user.avatarUrl}
-                              width="54"
-                              height="54"
-                              alt="Reviews"
-                            />
-                          </div>
-                          <span className="reviews__user-name">
-                            {review.user.name}
-                          </span>
-                        </div>
-                        <div className="reviews__info">
-                          <div className="reviews__rating rating">
-                            <div className="reviews__stars rating__stars">
-                              <span style={{width: calcRatingStarsWidth(review.rating)}}></span>
-                              <span className="visually-hidden">Rating</span>
-                            </div>
-                          </div>
-                          <p className="reviews__text">
-                            {review.comment}
-                          </p>
-                          <time className="reviews__time" dateTime={`${new Date(review.date).setFullYear}`}>{getFormattedData(review.date)}</time>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                  <CommentsForm />
+                  <Reviews reviews={reviews} />
+                  <ReviewForm />
                 </section>
               </div>
             </div>

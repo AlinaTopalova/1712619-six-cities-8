@@ -25,7 +25,7 @@ const Ratings = [
   },
 ] as const;
 
-export default function CommentsForm(): JSX.Element {
+export default function ReviewForm(): JSX.Element {
   const [rating, setRating] = useState('');
   const [comment, setСomment] = useState('');
 
