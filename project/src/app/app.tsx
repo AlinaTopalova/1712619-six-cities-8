@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { AppRoute } from 'const';
 import { Offer } from 'types/offers';
-import { Review } from 'types/reviews';
+import { UsersReview } from 'types/reviews';
 import MainPage from 'pages/main-page/main-page';
 import LoginPage from 'pages/login-page/login-page';
 import FavoritesPage from 'pages/favorites-page/favorites-page';
@@ -11,7 +11,7 @@ import PrivateRoute from 'shared/private-route/private-route';
 
 type AppProps = {
   offersData: Offer[],
-  reviewsData: Review[],
+  reviewsData: UsersReview[],
 }
 
 export default function App(props: AppProps): JSX.Element {
