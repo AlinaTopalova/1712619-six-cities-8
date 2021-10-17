@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { OfferReview } from 'types/reviews';
 import { calcRatingStarsWidth } from 'utils';
 
@@ -6,8 +5,8 @@ type ReviewProps = {
   review: OfferReview,
 }
 
-const formatDate = (date: string) => new Date(date).toLocaleDateString('en-US', {day: 'numeric', month: 'long'});
-const formatDateTime = (date: string) => new Date(date).toLocaleDateString('en-CA');
+const formatDateDisplayValue = (date: string) => new Date(date).toLocaleDateString('en-US', {day: 'numeric', month: 'long'});
+const formatDateAttribute = (date: string) => new Date(date).toLocaleDateString('en-CA');
 
 export default function Review(props: ReviewProps): JSX.Element {
   const { review } = props;
@@ -38,7 +37,12 @@ export default function Review(props: ReviewProps): JSX.Element {
         <p className="reviews__text">
           {review.comment}
         </p>
-        <time className="reviews__time" dateTime={formatDateTime(review.date)}>{formatDate(review.date)}</time>
+        <time
+          className="reviews__time"
+          dateTime={formatDateAttribute(review.date)}
+        >
+          {formatDateDisplayValue(review.date)}
+        </time>
       </div>
     </li>
   );

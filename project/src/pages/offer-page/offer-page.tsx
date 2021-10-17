@@ -5,7 +5,7 @@ import { calcRatingStarsWidth } from 'utils';
 import Header from 'shared/header/header';
 import OfferCard from 'shared/offer-card/offer-card';
 import Reviews from './reviews/reviews';
-import CommentsForm from './comments-form/comments-form';
+import ReviewForm from './review-form/review-form';
 import OffersMap from 'shared/offers-map/offers-map';
 
 const MAX_AMOUNT_IMAGES = 6;
@@ -128,12 +128,8 @@ export default function OfferPage(props: OfferPageProps): JSX.Element {
                   </div>
                 </div>
                 <section className="property__reviews reviews">
-                  <h2 className="reviews__title">
-                    Reviews &middot;
-                    <span className="reviews__amount">{reviews.length}</span>
-                  </h2>
                   <Reviews reviews={reviews} />
-                  <CommentsForm />
+                  <ReviewForm />
                 </section>
               </div>
             </div>
