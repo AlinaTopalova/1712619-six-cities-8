@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import Logo from 'components/logo/logo';
+import Logo from 'shared/logo/logo';
 import { AppRoute } from 'const';
 
 type HeaderProps = {

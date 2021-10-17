@@ -1,5 +1,5 @@
-import Header from 'components/header/header';
-import OffersList from 'components/offersList/offersList';
+import Header from 'shared/header/header';
+import OffersList from 'pages/main-page/offersList/offersList';
 import { Offer } from 'types/offers';
 
 type MainPageProps = {
