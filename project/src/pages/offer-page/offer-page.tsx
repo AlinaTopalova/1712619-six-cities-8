@@ -1,10 +1,11 @@
 import { useParams } from 'react-router';
 import { Offer } from 'types/offers';
-import { UsersReview } from 'types/reviews';
+import { OfferReview } from 'types/reviews';
 import { calcRatingStarsWidth } from 'utils';
 import Header from 'shared/header/header';
 import OfferCard from 'shared/offer-card/offer-card';
 import Reviews from './reviews/reviews';
+import CommentsForm from './comments-form/comments-form';
 import OffersMap from 'shared/offers-map/offers-map';
 
 const MAX_AMOUNT_IMAGES = 6;
@@ -12,7 +13,7 @@ const MAX_AMOUNT_NEAR_PLACES = 3;
 
 type OfferPageProps = {
   offersData: Offer[],
-  reviewsData: UsersReview[],
+  reviewsData: OfferReview[],
 }
 
 export default function OfferPage(props: OfferPageProps): JSX.Element {
@@ -126,7 +127,14 @@ export default function OfferPage(props: OfferPageProps): JSX.Element {
                     </p>
                   </div>
                 </div>
-                <Reviews reviews={reviews} />
+                <section className="property__reviews reviews">
+                  <h2 className="reviews__title">
+                    Reviews &middot;
+                    <span className="reviews__amount">{reviews.length}</span>
+                  </h2>
+                  <Reviews reviews={reviews} />
+                  <CommentsForm />
+                </section>
               </div>
             </div>
             <section className="property__map map">

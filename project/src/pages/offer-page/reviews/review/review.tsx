@@ -1,14 +1,16 @@
-import { UsersReview } from 'types/reviews';
+/* eslint-disable no-console */
+import { OfferReview } from 'types/reviews';
 import { calcRatingStarsWidth } from 'utils';
 
 type ReviewProps = {
-  review: UsersReview,
+  review: OfferReview,
 }
+
+const formatDate = (date: string) => new Date(date).toLocaleDateString('en-US', {day: 'numeric', month: 'long'});
+const formatDateTime = (date: string) => new Date(date).toLocaleDateString('en-CA');
 
 export default function Review(props: ReviewProps): JSX.Element {
   const { review } = props;
-
-  const getFormattedData = (date: string) => new Date(date).toLocaleDateString('en-US', {day: 'numeric', month: 'long'});
 
   return (
     <li className="reviews__item" key={review.user.id}>
@@ -29,14 +31,14 @@ export default function Review(props: ReviewProps): JSX.Element {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{width: calcRatingStarsWidth(review.rating)}}></span>
+            <span style={{width: calcRatingStarsWidth(review.rating)}} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <p className="reviews__text">
           {review.comment}
         </p>
-        <time className="reviews__time" dateTime={`${new Date(review.date).setFullYear}`}>{getFormattedData(review.date)}</time>
+        <time className="reviews__time" dateTime={formatDateTime(review.date)}>{formatDate(review.date)}</time>
       </div>
     </li>
   );

@@ -1,4 +1,4 @@
-export type UsersReview = {
+export type OfferReview = {
   id: number,
   user: {
     id: number,
