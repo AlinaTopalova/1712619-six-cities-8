@@ -1,7 +1,7 @@
 import { Offer } from 'types/offers';
-import Header from 'components/header/header';
-import OfferCard from 'components/offer-card/offer-card';
-import Footer from 'components/footer/footer';
+import Header from 'shared/header/header';
+import OfferCard from 'shared/offer-card/offer-card';
+import Footer from 'shared/footer/footer';
 
 type FavoritesPageProps = {
   offersData: Offer[]

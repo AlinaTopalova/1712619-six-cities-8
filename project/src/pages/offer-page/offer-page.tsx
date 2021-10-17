@@ -2,9 +2,10 @@ import { useParams } from 'react-router';
 import { Offer } from 'types/offers';
 import { Review } from 'types/reviews';
 import { calcRatingStarsWidth } from 'utils';
-import Header from 'components/header/header';
-import CommentsForm from 'components/comments-form/comments-form';
-import OfferCard from 'components/offer-card/offer-card';
+import Header from 'shared/header/header';
+import CommentsForm from 'pages/offer-page/comments-form/comments-form';
+import OfferCard from 'shared/offer-card/offer-card';
+import OffersMap from 'shared/offers-map/offers-map';
 
 const MAX_AMOUNT_IMAGES = 6;
 const MAX_AMOUNT_NEAR_PLACES = 3;
@@ -22,6 +23,7 @@ export default function OfferPage(props: OfferPageProps): JSX.Element {
   const { offerId } = useParams<{ offerId: string }>();
 
   const currentOffer = offersData.find((offer) => offerId === offer.id.toString());
+
   const reviews = reviewsData.filter((review) => offerId === review.id.toString());
 
   return (
@@ -164,7 +166,13 @@ export default function OfferPage(props: OfferPageProps): JSX.Element {
                 </section>
               </div>
             </div>
-            <section className="property__map map"></section>
+            <section className="property__map map">
+              <OffersMap
+                zoomOnOffer={false}
+                offers={offersData}
+                activeOffer={currentOffer}
+              />
+            </section>
           </section>
           <div className="container">
             <section className="near-places places">

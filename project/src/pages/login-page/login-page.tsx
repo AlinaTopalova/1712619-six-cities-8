@@ -1,4 +1,4 @@
-import Header from 'components/header/header';
+import Header from 'shared/header/header';
 
 export default function LoginPage(): JSX.Element {
 
