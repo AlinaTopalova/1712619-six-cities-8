@@ -1,57 +1,52 @@
+import { Dispatch } from 'redux';
+import { connect, ConnectedProps } from 'react-redux';
+import { Store } from 'types/store';
+import { Actions } from 'types/action';
+import { changeCurrentCity } from 'store/action';
 import Header from 'shared/header/header';
-import OffersList from 'pages/main-page/offersList/offersList';
-import { Offer } from 'types/offers';
+import OffersList from './offers-list/offers-list';
+import CitiesList from './cities-list/cities-list';
 
-type MainPageProps = {
-  offersData: Offer[],
-}
+const mapStateToProps = ({ currentCity, offers }: Store) => (
+  { currentCity, offers }
+);
 
-export default function MainPage(props: MainPageProps): JSX.Element {
-  const { offersData } = props;
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  onCityChange: (city: string) => {
+    dispatch(changeCurrentCity(city));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function MainPage(props: PropsFromRedux): JSX.Element {
+  const { currentCity, offers, onCityChange } = props;
+
+  const cityOffers = offers.filter((offer) => currentCity === offer.city.name);
+  const hasNoOffers = cityOffers.length === 0;
 
   return(
     <div className="page page--gray page--main">
       <Header isMainPage />
-      <main className="page__main page__main--index">
-        <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active" href="/">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
-        </div>
-        <OffersList offersData={offersData} />
+      <main
+        className={`page__main page__main--index ${hasNoOffers ? 'page__main--index-empty' : ''}`}
+      >
+        <CitiesList
+          currentCity={currentCity}
+          onCityChange={onCityChange}
+        />
+        <OffersList
+          currentCity={currentCity}
+          offers={cityOffers}
+          hasNoOffers={hasNoOffers}
+        />
       </main>
     </div>
   );
 }
+
+export { MainPage };
+
+export default connector(MainPage);
