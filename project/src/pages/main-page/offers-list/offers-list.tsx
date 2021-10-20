@@ -29,7 +29,7 @@ function OffersList(props: OffersListProps): JSX.Element {
         className={`cities__places-container container ${hasNoOffers ? 'cities__places-container--empty' : ''}`}
       >
         {hasNoOffers ? (
-          <NoOffers />
+          <NoOffers currentCity={currentCity} />
         ) : (
           <>
             <section className="cities__places places">

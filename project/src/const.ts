@@ -5,11 +5,18 @@ export const enum AppRoute {
   Offer = '/offer',
 }
 
-export const CITIES = [
-  'Paris',
-  'Cologne',
-  'Brussels',
-  'Amsterdam',
-  'Hamburg',
-  'Dusseldorf',
-];
+export const enum SortOffers {
+  Popular = 'Popular',
+  PriceLowToHigh= 'Price: low to high',
+  PriceHighToLow = 'Price: high ti low',
+  TopRated = 'Top rated first',
+}
+
+export enum Cities {
+  Paris = 'Paris',
+  Cologne = 'Cologne',
+  Brussels = 'Brussels',
+  Amsterdam = 'Amsterdam',
+  Hamburg = 'Hamburg',
+  Dusseldorf = 'Dusseldorf',
+}

@@ -1,4 +1,4 @@
-import { CITIES } from 'const';
+import { Cities } from 'const';
 
 type CitiesListProps = {
   currentCity: string,
@@ -14,7 +14,7 @@ function CitiesList(props: CitiesListProps): JSX.Element {
       <div className="tabs">
         <section className="locations container">
           <ul className="locations__list tabs__list">
-            {CITIES.map((city) => {
+            {Object.values(Cities).map((city) => {
               const isActive = currentCity === city;
               return (
                 (

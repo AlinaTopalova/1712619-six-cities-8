@@ -1,9 +1,10 @@
 import { offersData } from 'mocks/offers';
 import { Store } from 'types/store';
 import { Actions, ActionType } from 'types/action';
+import { Cities } from 'const';
 
 const initialState: Store = {
-  currentCity: 'Paris',
+  currentCity: Cities.Paris,
   offers: offersData,
 };
 
