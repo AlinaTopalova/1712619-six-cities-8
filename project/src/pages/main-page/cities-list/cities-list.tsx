@@ -2,7 +2,7 @@ import { Cities } from 'const';
 
 type CitiesListProps = {
   currentCity: string,
-  onCityChange: (city: string) => void,
+  onCityChange: (city: Cities) => void,
 }
 
 function CitiesList(props: CitiesListProps): JSX.Element {

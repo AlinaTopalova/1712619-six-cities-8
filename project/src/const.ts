@@ -5,10 +5,10 @@ export const enum AppRoute {
   Offer = '/offer',
 }
 
-export const enum SortOffers {
+export enum SortOptions {
   Popular = 'Popular',
   PriceLowToHigh= 'Price: low to high',
-  PriceHighToLow = 'Price: high ti low',
+  PriceHighToLow = 'Price: high to low',
   TopRated = 'Top rated first',
 }
 

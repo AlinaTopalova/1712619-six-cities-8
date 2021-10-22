@@ -62,9 +62,9 @@ export const offersData = [
     'city': {
       'name': 'Amsterdam',
       'location': {
-        'latitude': 52.2226553943508,
-        'longitude': 4.53229666406198,
-        'zoom': 13,
+        'latitude': 52.370216,
+        'longitude': 4.895168,
+        'zoom': 12,
       },
     },
     'previewImage': 'https://8.react.pages.academy/static/hotel/17.jpg',
@@ -120,9 +120,9 @@ export const offersData = [
     'city': {
       'name': 'Amsterdam',
       'location': {
-        'latitude': 52.2226553943508,
-        'longitude': 4.53229666406198,
-        'zoom': 13,
+        'latitude': 52.370216,
+        'longitude': 4.895168,
+        'zoom': 12,
       },
     },
     'previewImage': 'https://8.react.pages.academy/static/hotel/8.jpg',
@@ -177,9 +177,9 @@ export const offersData = [
     'city': {
       'name': 'Amsterdam',
       'location': {
-        'latitude': 52.2226553943508,
-        'longitude': 4.53229666406198,
-        'zoom': 13,
+        'latitude': 52.370216,
+        'longitude': 4.895168,
+        'zoom': 12,
       },
     },
     'previewImage': 'https://8.react.pages.academy/static/hotel/13.jpg',
