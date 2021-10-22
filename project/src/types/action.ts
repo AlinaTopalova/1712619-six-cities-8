@@ -1,13 +1,15 @@
 import { Offer } from 'types/offers';
+import { Cities, SortOptions } from 'const';
 
 export const enum ActionType {
   ChangeCurrentCity = 'app/changeCity',
   ChangeOffers = 'app/changeOffers',
+  ChangeSortOption = 'app/changeSortOption',
 }
 
 export type ChangeCurrentCityAction = {
   type: ActionType.ChangeCurrentCity;
-  payload: string;
+  payload: Cities;
 };
 
 export type ChangeOffersAction = {
@@ -15,4 +17,9 @@ export type ChangeOffersAction = {
   payload: Offer[];
 }
 
-export type Actions = ChangeCurrentCityAction | ChangeOffersAction;
+export type ChangeSortOptionAction = {
+  type: ActionType.ChangeSortOption,
+  payload: SortOptions,
+}
+
+export type Actions = ChangeCurrentCityAction | ChangeOffersAction | ChangeSortOptionAction;
