@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { useEffect, useRef, useState } from 'react';
 import { Dispatch } from 'redux';
 import { connect, ConnectedProps } from 'react-redux';
@@ -54,9 +53,7 @@ function SortOffers(props: PropsFromRedux): JSX.Element {
     >
       <span className="places__sorting-caption">Sort by</span>
       <span
-        onClick={(evt) => {
-          toogleSortMenu();
-        }}
+        onClick={toogleSortMenu}
         className="places__sorting-type"
         tabIndex={0}
       >
@@ -73,21 +70,24 @@ function SortOffers(props: PropsFromRedux): JSX.Element {
         className={`places__options places__options--custom
         ${isSortMenuActive ? 'places__options--opened' : ''}`}
       >
-        {Object.values(SortOptions).map((option) => (
-          <li
-            key={option}
-            className={`places__option
-            ${selectedSortOption === option ?
-            'places__option--active' : ''}`}
-            tabIndex={0}
-            onClick={(evt) => {
-              onSortOptionClick(option);
-              toogleSortMenu();
-            }}
-          >
-            {option}
-          </li>
-        ))}
+        {Object.values(SortOptions).map((option) => {
+          const isSelected = selectedSortOption === option;
+          return (
+            <li
+              key={option}
+              className={`places__option
+              ${isSelected ?
+              'places__option--active' : ''}`}
+              tabIndex={0}
+              onClick={() => {
+                onSortOptionClick(option);
+                toogleSortMenu();
+              }}
+            >
+              {option}
+            </li>
+          );
+        })}
       </ul>
     </form>
   );
