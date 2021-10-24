@@ -1,6 +1,9 @@
+import { useEffect } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { useParams } from 'react-router';
-import { Offer } from 'types/offers';
-import { OfferReview } from 'types/reviews';
+import { Store } from 'types/store';
+import { ThunkAppDispatch } from 'types/action';
+import { fetchReviewsAction } from 'store/api-action';
 import { calcRatingStarsWidth } from 'utils';
 import Header from 'shared/header/header';
 import OfferCard from 'shared/offer-card/offer-card';
@@ -11,19 +14,28 @@ import OffersMap from 'shared/offers-map/offers-map';
 const MAX_AMOUNT_IMAGES = 6;
 const MAX_AMOUNT_NEAR_PLACES = 3;
 
-type OfferPageProps = {
-  offersData: Offer[],
-  reviewsData: OfferReview[],
-}
 
-export default function OfferPage(props: OfferPageProps): JSX.Element {
-  const { offersData, reviewsData } = props;
+const mapStateToProps = ({ offers, reviews }: Store) => (
+  { offers, reviews }
+);
+
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  fetchReviews: (offerId: string) => dispatch(fetchReviewsAction(offerId)),
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function OfferPage(props: PropsFromRedux): JSX.Element {
+  const { offers, reviews, fetchReviews } = props;
 
   const { offerId } = useParams<{ offerId: string }>();
 
-  const currentOffer = offersData.find((offer) => offerId === offer.id.toString());
+  const currentOffer = offers.find((offer) => offerId === offer.id.toString());
 
-  const reviews = reviewsData.filter((review) => offerId === review.id.toString());
+  useEffect(() => {
+    fetchReviews(offerId);
+  }, [fetchReviews, offerId]);
 
   return (
     <div className="page">
@@ -136,7 +148,7 @@ export default function OfferPage(props: OfferPageProps): JSX.Element {
             <section className="property__map map">
               <OffersMap
                 zoomOnOffer={false}
-                offers={offersData}
+                offers={offers}
                 activeOffer={currentOffer}
               />
             </section>
@@ -145,7 +157,7 @@ export default function OfferPage(props: OfferPageProps): JSX.Element {
             <section className="near-places places">
               <h2 className="near-places__title">Other places in the neighbourhood</h2>
               <div className="near-places__list places__list">
-                {offersData.slice(0, MAX_AMOUNT_NEAR_PLACES).map((offer) => (
+                {offers.slice(0, MAX_AMOUNT_NEAR_PLACES).map((offer) => (
                   <OfferCard.Offer key={offer.id} offerData={offer} />
                 ))}
               </div>
@@ -155,4 +167,8 @@ export default function OfferPage(props: OfferPageProps): JSX.Element {
     </div>
   );
 }
+
+export { OfferPage };
+
+export default connector(OfferPage);
 

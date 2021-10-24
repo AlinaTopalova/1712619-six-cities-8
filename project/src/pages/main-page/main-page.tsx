@@ -5,12 +5,21 @@ import { Actions } from 'types/action';
 import { Cities, SortOptions } from 'const';
 import { changeCurrentCity } from 'store/action';
 import Header from 'shared/header/header';
+import Loading from 'shared/loading/loading';
 import OffersList from './offers-list/offers-list';
 import CitiesList from './cities-list/cities-list';
 
-const mapStateToProps = ({ currentCity, offers, selectedSortOption }: Store) => (
-  { currentCity, offers, selectedSortOption }
-);
+const mapStateToProps = ({
+  currentCity,
+  offers,
+  selectedSortOption,
+  isOffersLoaded,
+}: Store) => ({
+  currentCity,
+  offers,
+  selectedSortOption,
+  isOffersLoaded,
+});
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   onCityChange: (city: Cities) => {
@@ -23,7 +32,13 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function MainPage(props: PropsFromRedux): JSX.Element {
-  const { currentCity, offers, onCityChange, selectedSortOption } = props;
+  const {
+    currentCity,
+    offers,
+    onCityChange,
+    selectedSortOption,
+    isOffersLoaded,
+  } = props;
 
   const cityOffers = offers.filter((offer) => currentCity === offer.city.name);
 
@@ -53,11 +68,13 @@ function MainPage(props: PropsFromRedux): JSX.Element {
           currentCity={currentCity}
           onCityChange={onCityChange}
         />
-        <OffersList
-          currentCity={currentCity}
-          offers={cityOffers}
-          hasNoOffers={hasNoOffers}
-        />
+        {isOffersLoaded ?
+          <Loading /> :
+          <OffersList
+            currentCity={currentCity}
+            offers={cityOffers}
+            hasNoOffers={hasNoOffers}
+          />}
       </main>
     </div>
   );

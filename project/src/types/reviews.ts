@@ -10,3 +10,13 @@ export type OfferReview = {
   comment: string,
   date: string,
 };
+
+export type OfferReviewResponse = Omit<OfferReview, 'user'>
+& {
+  user: {
+    'id': number,
+    'is_pro': boolean,
+    'name': string,
+    'avatar_url': string,
+  }
+}
