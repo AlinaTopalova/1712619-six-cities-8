@@ -5,7 +5,7 @@ import { Actions } from 'types/action';
 import { Cities, SortOptions } from 'const';
 import { changeCurrentCity } from 'store/action';
 import Header from 'shared/header/header';
-import Loading from 'shared/loader/loader';
+import Loader from 'shared/loader/loader';
 import OffersList from './offers-list/offers-list';
 import CitiesList from './cities-list/cities-list';
 
@@ -68,13 +68,15 @@ function MainPage(props: PropsFromRedux): JSX.Element {
           currentCity={currentCity}
           onCityChange={onCityChange}
         />
-        {isOffersLoading ?
-          <Loading /> :
+        {isOffersLoading ? (
+          <Loader />
+        ) : (
           <OffersList
             currentCity={currentCity}
             offers={cityOffers}
             hasNoOffers={hasNoOffers}
-          />}
+          />
+        )}
       </main>
     </div>
   );

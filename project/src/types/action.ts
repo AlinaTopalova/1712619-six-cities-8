@@ -8,7 +8,7 @@ import { OfferReview } from 'types/reviews';
 export const enum ActionType {
   ChangeCurrentCity = 'app/changeCity',
   ChangeOffers = 'app/changeOffers',
-  ChangeSortOption = 'app/changeSortOption',
+  SetSortOffersBy = 'app/changeSortOption',
   LoadOffersComplete = 'data/loadOffersComplete',
   LoadReviewsComplete = 'data/loadReviewsComplete',
   LoadOffersStart = 'data/loadOffersStart',
@@ -30,8 +30,8 @@ export type ChangeOffersAction = {
   payload: Offer[];
 }
 
-export type ChangeSortOptionAction = {
-  type: ActionType.ChangeSortOption,
+export type SetSortOffersByAction = {
+  type: ActionType.SetSortOffersBy,
   payload: SortOptions,
 }
 
@@ -78,7 +78,7 @@ export type LoadNearbyOffersStartAction = {
 export type Actions =
   | ChangeCurrentCityAction
   | ChangeOffersAction
-  | ChangeSortOptionAction
+  | SetSortOffersByAction
   | LoadOffersCompleteAction
   | LoadReviewsCompleteAction
   | LoadOffersStartAction

@@ -22,7 +22,7 @@ const reducer = (state: Store = initialState, action: Actions): Store => {
       return {
         ...state, currentCity: action.payload,
       };
-    case ActionType.ChangeSortOption:
+    case ActionType.SetSortOffersBy:
       return {
         ...state, sortOffersBy: action.payload,
       };

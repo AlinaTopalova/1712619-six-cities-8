@@ -4,7 +4,7 @@ import { OfferReview } from 'types/reviews';
 import {
   ActionType,
   ChangeCurrentCityAction,
-  ChangeSortOptionAction,
+  SetSortOffersByAction,
   LoadOffersStartAction,
   LoadOffersCompleteAction,
   LoadReviewsCompleteAction,
@@ -21,9 +21,9 @@ export const changeCurrentCity = (currentCity: Cities): ChangeCurrentCityAction 
   payload: currentCity,
 });
 
-export const changeSortOption = (sortOffersBy: SortOptions): ChangeSortOptionAction => ({
-  type: ActionType.ChangeSortOption,
-  payload: sortOffersBy,
+export const setSortOffersBy = (sortOption: SortOptions): SetSortOffersByAction => ({
+  type: ActionType.SetSortOffersBy,
+  payload: sortOption,
 });
 
 export const loadOffersComplete = (offers: Offer[]): LoadOffersCompleteAction => ({

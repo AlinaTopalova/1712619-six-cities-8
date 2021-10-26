@@ -4,15 +4,15 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Store } from 'types/store';
 import { Actions } from 'types/action';
 import { SortOptions } from 'const';
-import { changeSortOption } from 'store/action';
+import { setSortOffersBy } from 'store/action';
 
 const mapStateToProps = ({ sortOffersBy }: Store) => (
   { sortOffersBy }
 );
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onSortOptionClick: (sortOffersBy: SortOptions) => {
-    dispatch(changeSortOption(sortOffersBy));
+  onSortChange: (sortOption: SortOptions) => {
+    dispatch(setSortOffersBy(sortOption));
   },
 });
 
@@ -21,7 +21,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function SortOffers(props: PropsFromRedux): JSX.Element {
-  const { sortOffersBy, onSortOptionClick } = props;
+  const { sortOffersBy, onSortChange } = props;
 
   const [isSortMenuActive, setIsSortMenuActive] = useState(false);
 
@@ -80,7 +80,7 @@ function SortOffers(props: PropsFromRedux): JSX.Element {
               'places__option--active' : ''}`}
               tabIndex={0}
               onClick={() => {
-                onSortOptionClick(option);
+                onSortChange(option);
                 toogleSortMenu();
               }}
             >

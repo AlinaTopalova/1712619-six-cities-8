@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { useParams } from 'react-router';
 import { Store } from 'types/store';
@@ -64,17 +64,18 @@ function OfferPage(props: PropsFromRedux): JSX.Element {
 
   useEffect(() => {
     fetchReviews(offerId);
-  }, [fetchReviews, offerId]);
-
-  useEffect(() => {
     fetchCurrentOffer(offerId);
-  }, [fetchCurrentOffer, offerId]);
-
-  useEffect(() => {
     fetchNearbyOffer(offerId);
-  }, [fetchNearbyOffer, offerId]);
+  }, [fetchCurrentOffer, fetchNearbyOffer, fetchReviews, offerId]);
 
-  const renderOfferPageContent = () => {
+  const offers = useMemo(() => {
+    if (!currentOffer) {
+      return [];
+    }
+    return [...nearbyOffers, currentOffer];
+  }, [currentOffer, nearbyOffers]);
+
+  const renderPageContent = () => {
     if (isCurrentOfferLoadingError) {
       return <NotFoundPage />;
     }
@@ -82,7 +83,6 @@ function OfferPage(props: PropsFromRedux): JSX.Element {
       return <Loader />;
     }
     if (currentOffer) {
-      const offers = [...nearbyOffers, currentOffer];
       return (
         <main className="page__main page__main--property">
           <section className="property">
@@ -150,10 +150,7 @@ function OfferPage(props: PropsFromRedux): JSX.Element {
                   <h2 className="property__inside-title">What&apos;s inside</h2>
                   <ul className="property__inside-list">
                     {currentOffer.goods.map((good) => (
-                      <li
-                        className="property__inside-item"
-                        key={good}
-                      >
+                      <li key={good} className="property__inside-item">
                         {good}
                       </li>
                     ))}
@@ -177,10 +174,11 @@ function OfferPage(props: PropsFromRedux): JSX.Element {
                     <span className="property__user-name">
                       {currentOffer.host.name}
                     </span>
-                    {currentOffer.host.isPro &&
-              <span className="property__user-status">
-                Pro
-              </span>}
+                    {currentOffer.host.isPro && (
+                      <span className="property__user-status">
+                         Pro
+                      </span>
+                    )}
                   </div>
                   <div className="property__description">
                     <p className="property__text">
@@ -192,7 +190,8 @@ function OfferPage(props: PropsFromRedux): JSX.Element {
                   <section className="property__reviews reviews">
                     <Reviews reviews={reviews} />
                     <ReviewForm />
-                  </section>)}
+                  </section>
+                )}
               </div>
             </div>
             {isNearbyOffersLoading ? <Loader /> : (
@@ -225,7 +224,7 @@ function OfferPage(props: PropsFromRedux): JSX.Element {
   return (
     <div className="page">
       <Header />
-      {renderOfferPageContent()}
+      {renderPageContent()}
     </div>
   );
 }

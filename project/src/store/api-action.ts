@@ -32,10 +32,8 @@ export const fetchCurrentOfferAction = (offerId: string): ThunkActionResult =>
       const { data } = await api.get<OfferResponse>(
         `${APIRoute.Offers}/${offerId}`,
       );
-      if (data) {
-        const normalizedOffer = adaptOfferToClient(data);
-        dispatch(loadCurrentOfferComplete(normalizedOffer));
-      }
+      const normalizedOffer = adaptOfferToClient(data);
+      dispatch(loadCurrentOfferComplete(normalizedOffer));
     } catch {
       dispatch(loadCurrentOfferError());
     }
@@ -47,12 +45,10 @@ export const fetchNearbyOffersAction = (offerId: string): ThunkActionResult =>
     const { data } = await api.get<OfferResponse[]>(
       `${APIRoute.Offers}/${offerId}/nearby`,
     );
-    if (data) {
-      const normalizedNearbyOffers = data.map((offer) => (
-        adaptOfferToClient(offer)
-      ));
-      dispatch(loadNearbyOffersComplete(normalizedNearbyOffers));
-    }
+    const normalizedNearbyOffers = data.map((offer) => (
+      adaptOfferToClient(offer)
+    ));
+    dispatch(loadNearbyOffersComplete(normalizedNearbyOffers));
   };
 
 export const fetchReviewsAction = (offerId: string): ThunkActionResult =>
