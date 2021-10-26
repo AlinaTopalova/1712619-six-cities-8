@@ -5,6 +5,11 @@ export const enum AppRoute {
   Offer = '/offer',
 }
 
+export const enum APIRoute {
+  Offers = '/hotels',
+  Reviews = '/comments',
+}
+
 export enum SortOptions {
   Popular = 'Popular',
   PriceLowToHigh= 'Price: low to high',

@@ -1,4 +1,5 @@
 export type Offer = {
+  bedrooms: number,
   city: {
     name: string,
     location: {
@@ -14,7 +15,6 @@ export type Offer = {
   isPremium: boolean,
   rating: number,
   type: string,
-  bedrooms: number,
   maxAdults: number,
   price: number,
   goods: string[],
@@ -32,3 +32,25 @@ export type Offer = {
   }
   id: number
 };
+
+export type OfferResponse = Omit<
+  Offer,
+  | 'host'
+  | 'isFavorite'
+  | 'isPremium'
+  | 'previewImage'
+  | 'maxAdults'
+> & {
+  host: {
+    'avatar_url': string,
+    'id': number,
+    'is_pro': boolean,
+    'name': string,
+  },
+  'is_favorite': boolean,
+  'is_premium': boolean,
+  'max_adults': number,
+  'preview_image': string,
+}
+
+

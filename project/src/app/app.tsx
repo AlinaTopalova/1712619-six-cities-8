@@ -1,21 +1,23 @@
+import { connect, ConnectedProps } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { AppRoute } from 'const';
-import { Offer } from 'types/offers';
-import { OfferReview } from 'types/reviews';
+import { Store } from 'types/store';
+import PrivateRoute from 'shared/private-route/private-route';
 import MainPage from 'pages/main-page/main-page';
 import LoginPage from 'pages/login-page/login-page';
 import FavoritesPage from 'pages/favorites-page/favorites-page';
 import OfferPage from 'pages/offer-page/offer-page';
 import NotFoundPage from 'pages/not-found-page/not-found-page';
-import PrivateRoute from 'shared/private-route/private-route';
 
-type AppProps = {
-  offersData: Offer[],
-  reviewsData: OfferReview[],
-}
+const mapStateToProps = ({ offers }: Store) => ({
+  offers,
+});
 
-export default function App(props: AppProps): JSX.Element {
-  const { offersData, reviewsData } = props;
+const connector = connect(mapStateToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function App(props: PropsFromRedux): JSX.Element {
+  const { offers } = props;
 
   return (
     <BrowserRouter>
@@ -27,10 +29,10 @@ export default function App(props: AppProps): JSX.Element {
           <LoginPage />
         </Route>
         <PrivateRoute exact path={AppRoute.Favorites}>
-          <FavoritesPage offersData={offersData} />
+          <FavoritesPage offersData={offers} />
         </PrivateRoute>
         <Route exact path={`${AppRoute.Offer}/:offerId`}>
-          <OfferPage offersData={offersData} reviewsData={reviewsData}/>
+          <OfferPage />
         </Route>
         <Route>
           <NotFoundPage />
@@ -39,5 +41,8 @@ export default function App(props: AppProps): JSX.Element {
     </BrowserRouter>
   );
 }
+
+export { App };
+export default connector(App);
 
 
