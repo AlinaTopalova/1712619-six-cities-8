@@ -1,14 +1,19 @@
-//import { offersData } from 'mocks/offers';
+import { Cities, SortOptions } from 'const';
 import { Store } from 'types/store';
 import { Actions, ActionType } from 'types/action';
-import { Cities, SortOptions } from 'const';
 
 const initialState: Store = {
   currentCity: Cities.Paris,
+  currentOffer: null,
+  nearbyOffers: [],
   offers: [],
   reviews: [],
-  selectedSortOption: SortOptions.Popular,
-  isOffersLoaded: false,
+  sortOffersBy: SortOptions.Popular,
+  isCurrentOfferLoading: false,
+  isCurrentOfferLoadingError: false,
+  isNearbyOffersLoading: false,
+  isOffersLoading: false,
+  isReviewsLoading: false,
 };
 
 const reducer = (state: Store = initialState, action: Actions): Store => {
@@ -19,19 +24,43 @@ const reducer = (state: Store = initialState, action: Actions): Store => {
       };
     case ActionType.ChangeSortOption:
       return {
-        ...state, selectedSortOption: action.payload,
+        ...state, sortOffersBy: action.payload,
       };
-    case ActionType.LoadOffers:
+    case ActionType.LoadOffersComplete:
       return {
-        ...state, offers: action.payload, isOffersLoaded: false,
+        ...state, offers: action.payload, isOffersLoading: false,
       };
-    case ActionType.LoadReviews:
+    case ActionType.LoadReviewsComplete:
       return {
-        ...state, reviews: action.payload,
+        ...state, reviews: action.payload, isReviewsLoading: false,
       };
     case ActionType.LoadOffersStart:
       return {
-        ...state, isOffersLoaded: action.payload,
+        ...state, isOffersLoading: true,
+      };
+    case ActionType.LoadReviewsStart:
+      return {
+        ...state, isReviewsLoading: true,
+      };
+    case ActionType.LoadCurrentOfferComplete:
+      return {
+        ...state, currentOffer: action.payload, isCurrentOfferLoading: false,
+      };
+    case ActionType.LoadCurrentOfferStart:
+      return {
+        ...state, isCurrentOfferLoading: true, isCurrentOfferLoadingError: false,
+      };
+    case ActionType.LoadCurrentOfferError:
+      return {
+        ...state, isCurrentOfferLoadingError: true, isCurrentOfferLoading: false,
+      };
+    case ActionType.LoadNearbyOffersComplete:
+      return {
+        ...state, nearbyOffers: action.payload, isNearbyOffersLoading: false,
+      };
+    case ActionType.LoadNearbyOffersStart:
+      return {
+        ...state, isNearbyOffersLoading: true,
       };
     default:
       return state;

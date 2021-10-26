@@ -5,10 +5,10 @@ import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import { reducer } from 'store/reducer';
+import { fetchOffersAction } from 'store/api-action';
+import { ThunkAppDispatch } from 'types/action';
 import { createAPI } from 'services/api';
 import App from 'app/app';
-import { ThunkAppDispatch } from 'types/action';
-import { fetchOffersAction } from 'store/api-action';
 
 const api = createAPI();
 

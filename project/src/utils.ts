@@ -19,7 +19,7 @@ export const adaptOfferToClient = (offerData: OfferResponse): Offer => ({
   goods: offerData.goods,
   host: {
     id: offerData.host.id,
-    name: offerData.host.avatar_url,
+    name: offerData.host.name,
     avatarUrl: offerData.host.avatar_url,
     isPro: offerData.host.is_pro,
   },

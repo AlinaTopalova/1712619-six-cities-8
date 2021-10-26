@@ -52,3 +52,5 @@ export type OfferResponse = Omit<
   'max_adults': number,
   'preview_image': string,
 }
+
+

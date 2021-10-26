@@ -11,8 +11,7 @@ export type OfferReview = {
   date: string,
 };
 
-export type OfferReviewResponse = Omit<OfferReview, 'user'>
-& {
+export type OfferReviewResponse = Omit<OfferReview, 'user'> & {
   user: {
     'id': number,
     'is_pro': boolean,

@@ -5,20 +5,20 @@ import { Actions } from 'types/action';
 import { Cities, SortOptions } from 'const';
 import { changeCurrentCity } from 'store/action';
 import Header from 'shared/header/header';
-import Loading from 'shared/loading/loading';
+import Loading from 'shared/loader/loader';
 import OffersList from './offers-list/offers-list';
 import CitiesList from './cities-list/cities-list';
 
 const mapStateToProps = ({
   currentCity,
   offers,
-  selectedSortOption,
-  isOffersLoaded,
+  sortOffersBy,
+  isOffersLoading,
 }: Store) => ({
   currentCity,
   offers,
-  selectedSortOption,
-  isOffersLoaded,
+  sortOffersBy,
+  isOffersLoading,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
@@ -36,13 +36,13 @@ function MainPage(props: PropsFromRedux): JSX.Element {
     currentCity,
     offers,
     onCityChange,
-    selectedSortOption,
-    isOffersLoaded,
+    sortOffersBy,
+    isOffersLoading,
   } = props;
 
   const cityOffers = offers.filter((offer) => currentCity === offer.city.name);
 
-  switch (selectedSortOption) {
+  switch (sortOffersBy) {
     case SortOptions.PriceHighToLow:
       cityOffers.sort((a, b) => b.price - a.price);
       break;
@@ -68,7 +68,7 @@ function MainPage(props: PropsFromRedux): JSX.Element {
           currentCity={currentCity}
           onCityChange={onCityChange}
         />
-        {isOffersLoaded ?
+        {isOffersLoading ?
           <Loading /> :
           <OffersList
             currentCity={currentCity}

@@ -6,13 +6,13 @@ import { Actions } from 'types/action';
 import { SortOptions } from 'const';
 import { changeSortOption } from 'store/action';
 
-const mapStateToProps = ({ selectedSortOption }: Store) => (
-  { selectedSortOption }
+const mapStateToProps = ({ sortOffersBy }: Store) => (
+  { sortOffersBy }
 );
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onSortOptionClick: (selectedSortOption: SortOptions) => {
-    dispatch(changeSortOption(selectedSortOption));
+  onSortOptionClick: (sortOffersBy: SortOptions) => {
+    dispatch(changeSortOption(sortOffersBy));
   },
 });
 
@@ -21,7 +21,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function SortOffers(props: PropsFromRedux): JSX.Element {
-  const { selectedSortOption, onSortOptionClick } = props;
+  const { sortOffersBy, onSortOptionClick } = props;
 
   const [isSortMenuActive, setIsSortMenuActive] = useState(false);
 
@@ -57,7 +57,7 @@ function SortOffers(props: PropsFromRedux): JSX.Element {
         className="places__sorting-type"
         tabIndex={0}
       >
-        {selectedSortOption}
+        {sortOffersBy}
         <svg
           className="places__sorting-arrow"
           width="7"
@@ -71,7 +71,7 @@ function SortOffers(props: PropsFromRedux): JSX.Element {
         ${isSortMenuActive ? 'places__options--opened' : ''}`}
       >
         {Object.values(SortOptions).map((option) => {
-          const isSelected = selectedSortOption === option;
+          const isSelected = sortOffersBy === option;
           return (
             <li
               key={option}

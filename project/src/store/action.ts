@@ -1,29 +1,67 @@
-import { ActionType, ChangeCurrentCityAction, ChangeSortOptionAction, LoadOffersStart, LoadOffersAction, LoadReviewsAction } from 'types/action';
-import { Offer } from 'types/offers';
 import { Cities, SortOptions } from 'const';
+import { Offer } from 'types/offers';
 import { OfferReview } from 'types/reviews';
+import {
+  ActionType,
+  ChangeCurrentCityAction,
+  ChangeSortOptionAction,
+  LoadOffersStartAction,
+  LoadOffersCompleteAction,
+  LoadReviewsCompleteAction,
+  LoadReviewsStartAction,
+  LoadCurrentOfferCompleteAction,
+  LoadCurrentOfferStartAction,
+  LoadCurrentOfferErrorAction,
+  LoadNearbyOffersCompleteAction,
+  LoadNearbyOffersStartAction
+} from 'types/action';
 
 export const changeCurrentCity = (currentCity: Cities): ChangeCurrentCityAction => ({
   type: ActionType.ChangeCurrentCity,
   payload: currentCity,
 });
 
-export const changeSortOption = (selectedSortOption: SortOptions): ChangeSortOptionAction => ({
+export const changeSortOption = (sortOffersBy: SortOptions): ChangeSortOptionAction => ({
   type: ActionType.ChangeSortOption,
-  payload: selectedSortOption,
+  payload: sortOffersBy,
 });
 
-export const loadOffers = (offers: Offer[]): LoadOffersAction => ({
-  type: ActionType.LoadOffers,
+export const loadOffersComplete = (offers: Offer[]): LoadOffersCompleteAction => ({
+  type: ActionType.LoadOffersComplete,
   payload: offers,
 });
 
-export const loadReviews = (reviews: OfferReview[]): LoadReviewsAction => ({
-  type: ActionType.LoadReviews,
+export const loadReviewsComplete = (reviews: OfferReview[]): LoadReviewsCompleteAction => ({
+  type: ActionType.LoadReviewsComplete,
   payload: reviews,
 });
 
-export const loadOffersStart = (isOffersLoaded: boolean): LoadOffersStart => ({
+export const loadOffersStart = (): LoadOffersStartAction => ({
   type: ActionType.LoadOffersStart,
-  payload: isOffersLoaded,
+});
+
+export const loadReviewsStart = (): LoadReviewsStartAction  => ({
+  type: ActionType.LoadReviewsStart,
+});
+
+export const loadCurrentOfferComplete = (currentOffer: Offer): LoadCurrentOfferCompleteAction => ({
+  type: ActionType.LoadCurrentOfferComplete,
+  payload: currentOffer,
+});
+
+export const loadCurrentOfferStart = (): LoadCurrentOfferStartAction => ({
+  type: ActionType.LoadCurrentOfferStart,
+});
+
+export const loadCurrentOfferError = (): LoadCurrentOfferErrorAction => ({
+  type: ActionType.LoadCurrentOfferError,
+});
+
+export const loadNearbyOffersComplete = (nearbyOffers: Offer[]): LoadNearbyOffersCompleteAction => ({
+  type: ActionType.LoadNearbyOffersComplete,
+  payload: nearbyOffers,
+});
+
+export const loadNearbyOffersStart = (): LoadNearbyOffersStartAction => ({
+  type: ActionType.LoadNearbyOffersStart,
 });

@@ -1,15 +1,15 @@
-import {connect, ConnectedProps} from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { AppRoute } from 'const';
 import { Store } from 'types/store';
+import PrivateRoute from 'shared/private-route/private-route';
 import MainPage from 'pages/main-page/main-page';
 import LoginPage from 'pages/login-page/login-page';
 import FavoritesPage from 'pages/favorites-page/favorites-page';
 import OfferPage from 'pages/offer-page/offer-page';
 import NotFoundPage from 'pages/not-found-page/not-found-page';
-import PrivateRoute from 'shared/private-route/private-route';
 
-const mapStateToProps = ({offers}: Store) => ({
+const mapStateToProps = ({ offers }: Store) => ({
   offers,
 });
 
@@ -42,7 +42,7 @@ function App(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export {App};
+export { App };
 export default connector(App);
 
 
