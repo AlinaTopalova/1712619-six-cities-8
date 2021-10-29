@@ -1,8 +1,11 @@
-import { APIRoute } from 'const';
 import { ThunkActionResult } from 'types/action';
+import { AuthData } from 'types/auth-data';
 import { OfferResponse} from 'types/offers';
 import { OfferReviewResponse } from 'types/reviews';
-import { adaptOfferToClient, adaptReviewToClient } from 'utils';
+import { UserResponse } from 'types/user';
+import { APIRoute } from 'const';
+import { adaptOfferToClient, adaptReviewToClient, adaptUserToClient } from 'utils';
+import { dropToken, saveToken } from 'services/token';
 import {
   loadOffersComplete,
   loadReviewsComplete,
@@ -12,7 +15,9 @@ import {
   loadCurrentOfferStart,
   loadCurrentOfferError,
   loadNearbyOffersComplete,
-  loadNearbyOffersStart
+  loadNearbyOffersStart,
+  logIn,
+  logOut
 } from 'store/action';
 
 export const fetchOffersAction = (): ThunkActionResult =>
@@ -63,4 +68,23 @@ export const fetchReviewsAction = (offerId: string): ThunkActionResult =>
     dispatch(loadReviewsComplete(normalizedReviews));
   };
 
+export const checkAuthAction = (): ThunkActionResult =>
+  async (dispatch, _getStore, api) => {
+    const { data } = await api.get<UserResponse>(APIRoute.LogIn);
+    dispatch(logIn(adaptUserToClient(data)));
+  };
+
+export const logInAction = ({ login: email, password }: AuthData): ThunkActionResult =>
+  async (dispatch, _getStore, api) => {
+    const { data } = await api.post<UserResponse>(APIRoute.LogIn, { email, password });
+    saveToken(data.token);
+    dispatch(logIn(adaptUserToClient(data)));
+  };
+
+export const logOutAction = (): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    api.delete(APIRoute.LogOut);
+    dropToken();
+    dispatch(logOut());
+  };
 

@@ -1,6 +1,6 @@
-import { Cities, SortOptions } from 'const';
 import { Offer } from 'types/offers';
 import { OfferReview } from 'types/reviews';
+import { User } from 'types/user';
 import {
   ActionType,
   ChangeCurrentCityAction,
@@ -13,8 +13,16 @@ import {
   LoadCurrentOfferStartAction,
   LoadCurrentOfferErrorAction,
   LoadNearbyOffersCompleteAction,
-  LoadNearbyOffersStartAction
+  LoadNearbyOffersStartAction,
+  LogInAction,
+  LogOutAction,
+  RedirectToRouteAction
 } from 'types/action';
+import {
+  Cities,
+  SortOptions,
+  AppRoute
+} from 'const';
 
 export const changeCurrentCity = (currentCity: Cities): ChangeCurrentCityAction => ({
   type: ActionType.ChangeCurrentCity,
@@ -64,4 +72,18 @@ export const loadNearbyOffersComplete = (nearbyOffers: Offer[]): LoadNearbyOffer
 
 export const loadNearbyOffersStart = (): LoadNearbyOffersStartAction => ({
   type: ActionType.LoadNearbyOffersStart,
+});
+
+export const logIn = (user: User): LogInAction => ({
+  type: ActionType.LogIn,
+  payload: user,
+});
+
+export const logOut = (): LogOutAction => ({
+  type: ActionType.LogOut,
+});
+
+export const redirectToRoute = (url: AppRoute): RedirectToRouteAction => ({
+  type: ActionType.RedirectToRoute,
+  payload: url,
 });

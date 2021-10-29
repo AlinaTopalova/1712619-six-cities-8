@@ -4,13 +4,16 @@ import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-import { reducer } from 'store/reducer';
-import { fetchOffersAction } from 'store/api-action';
 import { ThunkAppDispatch } from 'types/action';
+import { checkAuthAction, fetchOffersAction } from 'store/api-action';
+import { logOut } from 'store/action';
+import { reducer } from 'store/reducer';
 import { createAPI } from 'services/api';
 import App from 'app/app';
 
-const api = createAPI();
+const api = createAPI(() =>
+  store.dispatch(logOut()),
+);
 
 export const store = createStore(
   reducer,
@@ -19,6 +22,7 @@ export const store = createStore(
   ),
 );
 
+(store.dispatch as ThunkAppDispatch)(checkAuthAction());
 (store.dispatch as ThunkAppDispatch)(fetchOffersAction());
 
 ReactDOM.render(

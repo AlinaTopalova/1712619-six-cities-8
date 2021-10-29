@@ -8,6 +8,8 @@ export const enum AppRoute {
 export const enum APIRoute {
   Offers = '/hotels',
   Reviews = '/comments',
+  LogIn = '/login',
+  LogOut  = '/logout',
 }
 
 export enum SortOptions {
@@ -24,4 +26,10 @@ export enum Cities {
   Amsterdam = 'Amsterdam',
   Hamburg = 'Hamburg',
   Dusseldorf = 'Dusseldorf',
+}
+
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
 }

@@ -1,8 +1,13 @@
-import { Cities, SortOptions } from 'const';
 import { Store } from 'types/store';
 import { Actions, ActionType } from 'types/action';
+import {
+  Cities,
+  SortOptions,
+  AuthorizationStatus
+} from 'const';
 
 const initialState: Store = {
+  authorizationStatus: AuthorizationStatus.Unknown,
   currentCity: Cities.Paris,
   currentOffer: null,
   nearbyOffers: [],
@@ -14,6 +19,7 @@ const initialState: Store = {
   isNearbyOffersLoading: false,
   isOffersLoading: false,
   isReviewsLoading: false,
+  user: null,
 };
 
 const reducer = (state: Store = initialState, action: Actions): Store => {
@@ -61,6 +67,18 @@ const reducer = (state: Store = initialState, action: Actions): Store => {
     case ActionType.LoadNearbyOffersStart:
       return {
         ...state, isNearbyOffersLoading: true,
+      };
+    case ActionType.LogIn:
+      return {
+        ...state,
+        user: action.payload,
+        authorizationStatus: AuthorizationStatus.Auth,
+      };
+    case ActionType.LogOut:
+      return {
+        ...state,
+        user: null,
+        authorizationStatus: AuthorizationStatus.NoAuth,
       };
     default:
       return state;
