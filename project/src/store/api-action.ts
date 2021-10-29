@@ -1,7 +1,7 @@
 import { ThunkActionResult } from 'types/action';
 import { AuthData } from 'types/auth-data';
 import { OfferResponse} from 'types/offers';
-import { OfferReviewResponse } from 'types/reviews';
+import { OfferReviewResponse, NewReview } from 'types/reviews';
 import { UserResponse } from 'types/user';
 import { APIRoute } from 'const';
 import { adaptOfferToClient, adaptReviewToClient, adaptUserToClient } from 'utils';
@@ -18,6 +18,7 @@ import {
   loadNearbyOffersStart,
   logIn,
   logOut
+  // loadNewReview
 } from 'store/action';
 
 export const fetchOffersAction = (): ThunkActionResult =>
@@ -61,6 +62,18 @@ export const fetchReviewsAction = (offerId: string): ThunkActionResult =>
     dispatch(loadReviewsStart());
     const { data } = await api.get<OfferReviewResponse[]>(
       `${APIRoute.Reviews}/${offerId}`,
+    );
+    const normalizedReviews = data.map((review) => (
+      adaptReviewToClient(review)
+    ));
+    dispatch(loadReviewsComplete(normalizedReviews));
+  };
+
+export const setNewReviewAction = ({ comment, rating } : NewReview, offerId: string): ThunkActionResult =>
+  async (dispatch, _getStore, api) => {
+    const { data } = await api.post<OfferReviewResponse[]>(
+      `${APIRoute.Reviews}/${offerId}`,
+      { comment, rating },
     );
     const normalizedReviews = data.map((review) => (
       adaptReviewToClient(review)

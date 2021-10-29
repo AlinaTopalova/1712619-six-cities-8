@@ -1,4 +1,8 @@
-import { ChangeEvent, Fragment, useState} from 'react';
+import { ChangeEvent, FormEvent, Fragment, useState} from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import { setNewReviewAction } from 'store/api-action';
+import { ThunkAppDispatch } from 'types/action';
+import { NewReview } from 'types/reviews';
 
 const MIN_COMMENT_LENGTH = 50;
 
@@ -25,7 +29,22 @@ const Ratings = [
   },
 ] as const;
 
-export default function ReviewForm(): JSX.Element {
+type ReviewFormProps = {
+  offerId: string,
+}
+
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onSubmit(newReview: NewReview, offerId: string) {
+    dispatch(setNewReviewAction(newReview, offerId));
+  },
+});
+
+const connector = connect(null, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & ReviewFormProps;
+
+function ReviewForm(props: ConnectedComponentProps): JSX.Element {
+  const { onSubmit, offerId } = props;
   const [rating, setRating] = useState('');
   const [comment, setСomment] = useState('');
 
@@ -39,8 +58,23 @@ export default function ReviewForm(): JSX.Element {
     setСomment(evt.target.value);
   };
 
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    onSubmit({
+      comment: comment,
+      rating: Number(rating),
+    }, offerId);
+    setRating('');
+    setСomment('');
+  };
+
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form
+      onSubmit={handleSubmit}
+      className="reviews__form form"
+      action="#"
+      method="post"
+    >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {Ratings.map(({ title, value }) => (
@@ -90,3 +124,7 @@ export default function ReviewForm(): JSX.Element {
     </form>
   );
 }
+
+export { ReviewForm };
+
+export default connector(ReviewForm);

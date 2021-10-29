@@ -8,6 +8,8 @@ type ReviewsProps = {
 export default function Reviews(props: ReviewsProps): JSX.Element {
   const { reviews } = props;
 
+  const sortedReviews = reviews.sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
+
   return(
     <>
       <h2 className="reviews__title">
@@ -15,7 +17,7 @@ export default function Reviews(props: ReviewsProps): JSX.Element {
         <span className="reviews__amount">{reviews.length}</span>
       </h2>
       <ul className="reviews__list">
-        {reviews.map((review) => (
+        {sortedReviews.map((review) => (
           <Review key={review.id} review={review} />
         ))}
       </ul>

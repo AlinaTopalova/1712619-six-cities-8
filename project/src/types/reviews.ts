@@ -18,4 +18,9 @@ export type OfferReviewResponse = Omit<OfferReview, 'user'> & {
     'name': string,
     'avatar_url': string,
   }
-}
+};
+
+export type NewReview = {
+  comment: string,
+  rating: number,
+};

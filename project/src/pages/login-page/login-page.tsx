@@ -8,9 +8,14 @@ import { AppRoute, AuthorizationStatus } from 'const';
 import { logInAction } from 'store/api-action';
 import Header from 'shared/header/header';
 
+const passwordReg = /[a-z][0-9]/;
+
 const validatePassword = (inputValue: string) => {
   if (inputValue.includes(' ')) {
     return 'Пароль не должен состоять из пробелов';
+  }
+  else if (!passwordReg.test(inputValue)) {
+    return 'В пароле должна быть минимум одна буква и цифра';
   }
   return '';
 };

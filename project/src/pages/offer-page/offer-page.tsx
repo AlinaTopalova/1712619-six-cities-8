@@ -16,10 +16,12 @@ import Loader from 'shared/loader/loader';
 import NotFoundPage from 'pages/not-found-page/not-found-page';
 import Reviews from './reviews/reviews';
 import ReviewForm from './review-form/review-form';
+import { AuthorizationStatus } from 'const';
 
 const MAX_AMOUNT_IMAGES = 6;
 
 const mapStateToProps = ({
+  authorizationStatus,
   currentOffer,
   reviews,
   nearbyOffers,
@@ -28,6 +30,7 @@ const mapStateToProps = ({
   isCurrentOfferLoadingError,
   isNearbyOffersLoading,
 }: Store) => ({
+  authorizationStatus,
   currentOffer,
   reviews,
   nearbyOffers,
@@ -48,6 +51,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function OfferPage(props: PropsFromRedux): JSX.Element {
   const {
+    authorizationStatus,
     currentOffer,
     reviews,
     nearbyOffers,
@@ -194,7 +198,9 @@ function OfferPage(props: PropsFromRedux): JSX.Element {
                 {isReviewsLoading ? <Loader /> : (
                   <section className="property__reviews reviews">
                     <Reviews reviews={reviews} />
-                    <ReviewForm />
+                    {authorizationStatus === AuthorizationStatus.Auth && (
+                      <ReviewForm offerId={offerId} />
+                    )}
                   </section>
                 )}
               </div>
