@@ -18,7 +18,6 @@ import {
   loadNearbyOffersStart,
   logIn,
   logOut
-  // loadNewReview
 } from 'store/action';
 
 export const fetchOffersAction = (): ThunkActionResult =>
@@ -69,7 +68,7 @@ export const fetchReviewsAction = (offerId: string): ThunkActionResult =>
     dispatch(loadReviewsComplete(normalizedReviews));
   };
 
-export const setNewReviewAction = ({ comment, rating } : NewReview, offerId: string): ThunkActionResult =>
+export const postReviewAction = ({ comment, rating } : NewReview, offerId: string): ThunkActionResult =>
   async (dispatch, _getStore, api) => {
     const { data } = await api.post<OfferReviewResponse[]>(
       `${APIRoute.Reviews}/${offerId}`,

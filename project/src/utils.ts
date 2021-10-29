@@ -4,7 +4,7 @@ import { User, UserResponse } from 'types/user';
 
 const RATING_TO_STARS_RATIO = 20;
 
-export const calcRatingStarsWidth = (rating: number): string => `${rating * RATING_TO_STARS_RATIO}%`;
+export const calcRatingStarsWidth = (rating: number): string => `${Math.round(rating) * RATING_TO_STARS_RATIO}%`;
 
 export const adaptOfferToClient = (offerData: OfferResponse): Offer => ({
   bedrooms: offerData.bedrooms,

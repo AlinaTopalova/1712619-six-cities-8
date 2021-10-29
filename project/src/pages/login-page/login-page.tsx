@@ -8,14 +8,14 @@ import { AppRoute, AuthorizationStatus } from 'const';
 import { logInAction } from 'store/api-action';
 import Header from 'shared/header/header';
 
-const passwordReg = /[a-z][0-9]/;
-
 const validatePassword = (inputValue: string) => {
+  const passwordReg = /[a-z][0-9]/;
+
   if (inputValue.includes(' ')) {
-    return 'Пароль не должен состоять из пробелов';
+    return 'Пароль не должен содержать пробел';
   }
-  else if (!passwordReg.test(inputValue)) {
-    return 'В пароле должна быть минимум одна буква и цифра';
+  if (!passwordReg.test(inputValue)) {
+    return 'Пароль должен содержать минимум одну букву и цифру';
   }
   return '';
 };
@@ -74,8 +74,6 @@ function LoginPage(props: PropsFromRedux): JSX.Element {
               onSubmit={handleSubmit}
               onChange={handleFieldsChange}
               className="login__form form"
-              action=""
-              method="post"
             >
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>

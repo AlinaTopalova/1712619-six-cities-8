@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { OfferReview } from 'types/reviews';
 import Review from './review/review';
 
@@ -8,7 +9,7 @@ type ReviewsProps = {
 export default function Reviews(props: ReviewsProps): JSX.Element {
   const { reviews } = props;
 
-  const sortedReviews = reviews.sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
+  const sortedReviews = useMemo(() => reviews.sort((a, b) => Date.parse(b.date) - Date.parse(a.date)), [reviews]);
 
   return(
     <>

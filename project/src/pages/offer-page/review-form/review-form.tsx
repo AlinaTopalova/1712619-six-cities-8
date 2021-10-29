@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, Fragment, useState} from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { setNewReviewAction } from 'store/api-action';
+import { postReviewAction } from 'store/api-action';
 import { ThunkAppDispatch } from 'types/action';
 import { NewReview } from 'types/reviews';
 
@@ -34,8 +34,8 @@ type ReviewFormProps = {
 }
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSubmit(newReview: NewReview, offerId: string) {
-    dispatch(setNewReviewAction(newReview, offerId));
+  postReview(newReview: NewReview, offerId: string) {
+    dispatch(postReviewAction(newReview, offerId));
   },
 });
 
@@ -44,8 +44,10 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & ReviewFormProps;
 
 function ReviewForm(props: ConnectedComponentProps): JSX.Element {
-  const { onSubmit, offerId } = props;
+  const { postReview, offerId } = props;
+
   const [rating, setRating] = useState('');
+
   const [comment, setСomment] = useState('');
 
   const isFormCompleted = comment.length > MIN_COMMENT_LENGTH && Boolean(rating);
@@ -60,8 +62,8 @@ function ReviewForm(props: ConnectedComponentProps): JSX.Element {
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    onSubmit({
-      comment: comment,
+    postReview({
+      comment,
       rating: Number(rating),
     }, offerId);
     setRating('');
@@ -72,8 +74,6 @@ function ReviewForm(props: ConnectedComponentProps): JSX.Element {
     <form
       onSubmit={handleSubmit}
       className="reviews__form form"
-      action="#"
-      method="post"
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
