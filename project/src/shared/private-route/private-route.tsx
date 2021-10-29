@@ -33,7 +33,7 @@ function PrivateRoute(props: ConnectedComponentProps): JSX.Element {
     <Route
       exact={exact}
       path={path}
-      render={(routeProps) => (render(routeProps))}
+      render={render}
     />
   );
 }
