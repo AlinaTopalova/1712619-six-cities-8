@@ -1,7 +1,7 @@
 import { connect, ConnectedProps } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { AppRoute } from 'const';
 import { Store } from 'types/store';
+import { AppRoute } from 'const';
 import PrivateRoute from 'shared/private-route/private-route';
 import MainPage from 'pages/main-page/main-page';
 import LoginPage from 'pages/login-page/login-page';
@@ -28,8 +28,11 @@ function App(props: PropsFromRedux): JSX.Element {
         <Route exact path={AppRoute.SignIn}>
           <LoginPage />
         </Route>
-        <PrivateRoute exact path={AppRoute.Favorites}>
-          <FavoritesPage offersData={offers} />
+        <PrivateRoute
+          exact
+          path={AppRoute.Favorites}
+          render={() => <FavoritesPage offersData={offers} />}
+        >
         </PrivateRoute>
         <Route exact path={`${AppRoute.Offer}/:offerId`}>
           <OfferPage />

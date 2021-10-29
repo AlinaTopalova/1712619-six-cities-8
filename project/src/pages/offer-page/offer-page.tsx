@@ -66,7 +66,12 @@ function OfferPage(props: PropsFromRedux): JSX.Element {
     fetchReviews(offerId);
     fetchCurrentOffer(offerId);
     fetchNearbyOffer(offerId);
-  }, [fetchCurrentOffer, fetchNearbyOffer, fetchReviews, offerId]);
+  },
+  [fetchCurrentOffer,
+    fetchNearbyOffer,
+    fetchReviews,
+    offerId,
+  ]);
 
   const offers = useMemo(() => {
     if (!currentOffer) {

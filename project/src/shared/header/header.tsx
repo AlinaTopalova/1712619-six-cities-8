@@ -1,14 +1,36 @@
 import { Link } from 'react-router-dom';
+import { connect, ConnectedProps } from 'react-redux';
+import { ThunkAppDispatch } from 'types/action';
+import { Store } from 'types/store';
+import { AppRoute, AuthorizationStatus } from 'const';
+import { logOutAction } from 'store/api-action';
 import Logo from 'shared/logo/logo';
-import { AppRoute } from 'const';
 
 type HeaderProps = {
   isMainPage?: boolean,
   showUserBlock?: boolean,
 }
 
-export default function Header(props: HeaderProps): JSX.Element {
-  const { isMainPage = false, showUserBlock = true } = props;
+const mapStateToProps = ({ authorizationStatus, user }: Store) => ({
+  authorizationStatus,
+  user,
+});
+
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onLogOutClick() {
+    dispatch(logOutAction());
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & HeaderProps;
+
+function Header(props: ConnectedComponentProps): JSX.Element {
+  const { authorizationStatus, user, onLogOutClick, isMainPage = false, showUserBlock = true } = props;
+
+  const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 
   return (
     <header className="header">
@@ -25,22 +47,44 @@ export default function Header(props: HeaderProps): JSX.Element {
           {showUserBlock &&
             <nav className="header__nav">
               <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <Link
-                    className="header__nav-link header__nav-link--profile"
-                    to={AppRoute.Favorites}
-                  >
-                    <div className="header__avatar-wrapper user__avatar-wrapper" />
-                    <span className="header__user-name user__name">
-                      Oliver.conner@gmail.com
-                    </span>
-                  </Link>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="/">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
+                {!isAuthorized ? (
+                  <li className="header__nav-item user">
+                    <Link
+                      className="header__nav-link header__nav-link--profile"
+                      to={AppRoute.SignIn}
+                    >
+                      <div className="header__avatar-wrapper user__avatar-wrapper">
+                      </div>
+                      <span className="header__login">Sign in</span>
+                    </Link>
+                  </li>
+                ) : (
+                  <>
+                    <li className="header__nav-item user">
+                      <Link
+                        className="header__nav-link header__nav-link--profile"
+                        to={AppRoute.Favorites}
+                      >
+                        <div className="header__avatar-wrapper user__avatar-wrapper" />
+                        <span className="header__user-name user__name">
+                          {user?.name}
+                        </span>
+                      </Link>
+                    </li>
+                    <li className="header__nav-item">
+                      <Link
+                        onClick={(evt) => {
+                          evt.preventDefault();
+                          onLogOutClick();
+                        }}
+                        className="header__nav-link"
+                        to="/"
+                      >
+                        <span className="header__signout">Sign out</span>
+                      </Link>
+                    </li>
+                  </>
+                )}
               </ul>
             </nav>}
         </div>
@@ -48,3 +92,7 @@ export default function Header(props: HeaderProps): JSX.Element {
     </header>
   );
 }
+
+export { Header };
+
+export default connector(Header);

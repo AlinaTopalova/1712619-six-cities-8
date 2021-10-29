@@ -1,14 +1,20 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { AxiosInstance } from 'axios';
-import { Cities, SortOptions } from 'const';
 import { Store } from 'types/store';
 import { Offer } from 'types/offers';
 import { OfferReview } from 'types/reviews';
+import { User } from 'types/user';
+import {
+  Cities,
+  SortOptions,
+  AuthorizationStatus,
+  AppRoute
+} from 'const';
 
 export const enum ActionType {
+  ChangeAuthorizationStatus = 'user/changeAuthorizationStatus',
   ChangeCurrentCity = 'app/changeCity',
   ChangeOffers = 'app/changeOffers',
-  SetSortOffersBy = 'app/changeSortOption',
   LoadOffersComplete = 'data/loadOffersComplete',
   LoadReviewsComplete = 'data/loadReviewsComplete',
   LoadOffersStart = 'data/loadOffersStart',
@@ -17,7 +23,11 @@ export const enum ActionType {
   LoadCurrentOfferStart = 'data/loadCurrentOfferStart',
   LoadCurrentOfferError = 'data/loadCurrentOfferError',
   LoadNearbyOffersComplete = 'data/loadNearbyOffersComplete',
-  LoadNearbyOffersStart = 'data/loadNearbyOffersStart'
+  LoadNearbyOffersStart = 'data/loadNearbyOffersStart',
+  LogOut = 'user/logOut',
+  RedirectToRoute = 'app/redirectToRoute',
+  SetUserData = 'user/setUserData',
+  SetSortOffersBy = 'app/changeSortOption',
 }
 
 export type ChangeCurrentCityAction = {
@@ -75,10 +85,29 @@ export type LoadNearbyOffersStartAction = {
   type: ActionType.LoadNearbyOffersStart,
 }
 
+export type ChangeAuthorizationStatusAction = {
+  type: ActionType.ChangeAuthorizationStatus,
+  payload: AuthorizationStatus,
+}
+
+export type LogOutAction = {
+  type: ActionType.LogOut,
+}
+
+export type RedirectToRouteAction = {
+  type: ActionType.RedirectToRoute,
+  payload: AppRoute,
+}
+
+export type SetUserDataAction = {
+  type: ActionType.SetUserData,
+  payload: User
+}
+
 export type Actions =
+  | ChangeAuthorizationStatusAction
   | ChangeCurrentCityAction
   | ChangeOffersAction
-  | SetSortOffersByAction
   | LoadOffersCompleteAction
   | LoadReviewsCompleteAction
   | LoadOffersStartAction
@@ -88,6 +117,10 @@ export type Actions =
   | LoadCurrentOfferErrorAction
   | LoadNearbyOffersCompleteAction
   | LoadNearbyOffersStartAction
+  | LogOutAction
+  | RedirectToRouteAction
+  | SetUserDataAction
+  | SetSortOffersByAction
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, Store, AxiosInstance, Actions>;
 
