@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 import { ThunkActionResult } from 'types/action';
 import { AuthData } from 'types/auth-data';
 import { OfferResponse} from 'types/offers';
