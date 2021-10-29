@@ -32,6 +32,11 @@ function Header(props: ConnectedComponentProps): JSX.Element {
 
   const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 
+  const handleLogOutClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    evt.preventDefault();
+    onLogOutClick();
+  };
+
   return (
     <header className="header">
       <div className="container">
@@ -53,8 +58,7 @@ function Header(props: ConnectedComponentProps): JSX.Element {
                       className="header__nav-link header__nav-link--profile"
                       to={AppRoute.SignIn}
                     >
-                      <div className="header__avatar-wrapper user__avatar-wrapper">
-                      </div>
+                      <div className="header__avatar-wrapper user__avatar-wrapper" />
                       <span className="header__login">Sign in</span>
                     </Link>
                   </li>
@@ -65,7 +69,12 @@ function Header(props: ConnectedComponentProps): JSX.Element {
                         className="header__nav-link header__nav-link--profile"
                         to={AppRoute.Favorites}
                       >
-                        <div className="header__avatar-wrapper user__avatar-wrapper" />
+                        <div
+                          className="header__avatar-wrapper user__avatar-wrapper"
+                          style={{
+                            backgroundImage: `url(${user?.avatarUrl})`,
+                          }}
+                        />
                         <span className="header__user-name user__name">
                           {user?.name}
                         </span>
@@ -73,10 +82,7 @@ function Header(props: ConnectedComponentProps): JSX.Element {
                     </li>
                     <li className="header__nav-item">
                       <Link
-                        onClick={(evt) => {
-                          evt.preventDefault();
-                          onLogOutClick();
-                        }}
+                        onClick={handleLogOutClick}
                         className="header__nav-link"
                         to="/"
                       >

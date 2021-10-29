@@ -66,8 +66,8 @@ function OfferPage(props: PropsFromRedux): JSX.Element {
     fetchReviews(offerId);
     fetchCurrentOffer(offerId);
     fetchNearbyOffer(offerId);
-  },
-  [fetchCurrentOffer,
+  },[
+    fetchCurrentOffer,
     fetchNearbyOffer,
     fetchReviews,
     offerId,

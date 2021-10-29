@@ -14,15 +14,13 @@ import {
   LoadCurrentOfferErrorAction,
   LoadNearbyOffersCompleteAction,
   LoadNearbyOffersStartAction,
-  ChangeAuthorizationStatusAction,
+  LogInAction,
   LogOutAction,
-  RedirectToRouteAction,
-  SetUserDataAction
+  RedirectToRouteAction
 } from 'types/action';
 import {
   Cities,
   SortOptions,
-  AuthorizationStatus,
   AppRoute
 } from 'const';
 
@@ -76,9 +74,9 @@ export const loadNearbyOffersStart = (): LoadNearbyOffersStartAction => ({
   type: ActionType.LoadNearbyOffersStart,
 });
 
-export const changeAuthorizationStatus = (authStatus: AuthorizationStatus): ChangeAuthorizationStatusAction => ({
-  type: ActionType.ChangeAuthorizationStatus,
-  payload: authStatus,
+export const logIn = (user: User): LogInAction => ({
+  type: ActionType.LogIn,
+  payload: user,
 });
 
 export const logOut = (): LogOutAction => ({
@@ -88,9 +86,4 @@ export const logOut = (): LogOutAction => ({
 export const redirectToRoute = (url: AppRoute): RedirectToRouteAction => ({
   type: ActionType.RedirectToRoute,
   payload: url,
-});
-
-export const setUserData = (userData: User): SetUserDataAction => ({
-  type: ActionType.SetUserData,
-  payload: userData,
 });

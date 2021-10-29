@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import axios, {
   AxiosError,
   AxiosInstance,
@@ -27,7 +26,6 @@ export const createAPI = (onUnauthorized: UnauthorizedCallback): AxiosInstance =
     (error: AxiosError) => {
       const { response } = error;
       if (response?.status === HttpCode.Unauthorized) {
-        console.log('unauthorized');
         onUnauthorized();
       }
       return Promise.reject(error);

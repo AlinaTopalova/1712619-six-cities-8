@@ -1,5 +1,6 @@
 import { Offer, OfferResponse } from 'types/offers';
 import { OfferReview, OfferReviewResponse } from 'types/reviews';
+import { User, UserResponse } from 'types/user';
 
 const RATING_TO_STARS_RATIO = 20;
 
@@ -51,4 +52,13 @@ export const adaptReviewToClient = (reviewData: OfferReviewResponse): OfferRevie
   rating: reviewData.rating,
   comment: reviewData.comment,
   date: reviewData.date,
+});
+
+export const adaptUserToClient = (userData: UserResponse): User => ({
+  avatarUrl: userData.avatar_url,
+  email: userData.email,
+  id: userData.id,
+  isPro: userData.is_pro,
+  name: userData.name,
+  token: userData.token,
 });

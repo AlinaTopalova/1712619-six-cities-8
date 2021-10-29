@@ -8,6 +8,12 @@ import { AppRoute, AuthorizationStatus } from 'const';
 import { logInAction } from 'store/api-action';
 import Header from 'shared/header/header';
 
+const validatePassword = (inputValue: string) => {
+  if (inputValue.includes(' ')) {
+    return 'Пароль не должен состоять из пробелов';
+  }
+  return '';
+};
 
 const mapStateToProps = ({ user, authorizationStatus }: Store) => ({
   user,
@@ -31,12 +37,6 @@ function LoginPage(props: PropsFromRedux): JSX.Element {
 
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
-  const validatePassword = (inputValue: string) => {
-    if (inputValue.includes(' ')) {
-      return 'Пароль не должен состоять из пробелов';
-    }
-    return '';
-  };
   const handleFieldsChange = (evt: FormEvent<HTMLFormElement>) => {
     if (loginRef.current && passwordRef.current) {
       passwordRef.current.setCustomValidity(validatePassword(passwordRef.current.value));
@@ -57,6 +57,7 @@ function LoginPage(props: PropsFromRedux): JSX.Element {
   if (authorizationStatus === AuthorizationStatus.Auth) {
     return <Redirect to={AppRoute.Main}/>;
   }
+
   return (
     <div className="page page--gray page--login">
       <Header showUserBlock={false}/>

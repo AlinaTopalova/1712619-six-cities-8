@@ -68,19 +68,17 @@ const reducer = (state: Store = initialState, action: Actions): Store => {
       return {
         ...state, isNearbyOffersLoading: true,
       };
-    case ActionType.ChangeAuthorizationStatus:
+    case ActionType.LogIn:
       return {
-        ...state, authorizationStatus: action.payload,
+        ...state,
+        user: action.payload,
+        authorizationStatus: AuthorizationStatus.Auth,
       };
     case ActionType.LogOut:
       return {
         ...state,
-        authorizationStatus: AuthorizationStatus.NoAuth,
         user: null,
-      };
-    case ActionType.SetUserData:
-      return {
-        ...state, user: action.payload,
+        authorizationStatus: AuthorizationStatus.NoAuth,
       };
     default:
       return state;

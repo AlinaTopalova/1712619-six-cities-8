@@ -7,12 +7,11 @@ import { User } from 'types/user';
 import {
   Cities,
   SortOptions,
-  AuthorizationStatus,
   AppRoute
 } from 'const';
 
 export const enum ActionType {
-  ChangeAuthorizationStatus = 'user/changeAuthorizationStatus',
+  LogIn = 'user/logIn',
   ChangeCurrentCity = 'app/changeCity',
   ChangeOffers = 'app/changeOffers',
   LoadOffersComplete = 'data/loadOffersComplete',
@@ -26,7 +25,6 @@ export const enum ActionType {
   LoadNearbyOffersStart = 'data/loadNearbyOffersStart',
   LogOut = 'user/logOut',
   RedirectToRoute = 'app/redirectToRoute',
-  SetUserData = 'user/setUserData',
   SetSortOffersBy = 'app/changeSortOption',
 }
 
@@ -85,9 +83,9 @@ export type LoadNearbyOffersStartAction = {
   type: ActionType.LoadNearbyOffersStart,
 }
 
-export type ChangeAuthorizationStatusAction = {
-  type: ActionType.ChangeAuthorizationStatus,
-  payload: AuthorizationStatus,
+export type LogInAction = {
+  type: ActionType.LogIn,
+  payload: User,
 }
 
 export type LogOutAction = {
@@ -99,13 +97,8 @@ export type RedirectToRouteAction = {
   payload: AppRoute,
 }
 
-export type SetUserDataAction = {
-  type: ActionType.SetUserData,
-  payload: User
-}
-
 export type Actions =
-  | ChangeAuthorizationStatusAction
+  | LogInAction
   | ChangeCurrentCityAction
   | ChangeOffersAction
   | LoadOffersCompleteAction
@@ -119,7 +112,6 @@ export type Actions =
   | LoadNearbyOffersStartAction
   | LogOutAction
   | RedirectToRouteAction
-  | SetUserDataAction
   | SetSortOffersByAction
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, Store, AxiosInstance, Actions>;

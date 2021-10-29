@@ -1,12 +1,13 @@
+/* eslint-disable no-console */
 
 import { ThunkActionResult } from 'types/action';
 import { AuthData } from 'types/auth-data';
 import { OfferResponse} from 'types/offers';
 import { OfferReviewResponse } from 'types/reviews';
-import { User } from 'types/user';
-import { APIRoute, AppRoute, AuthorizationStatus } from 'const';
-import { adaptOfferToClient, adaptReviewToClient } from 'utils';
-import { dropToken, saveToken, Token } from 'services/token';
+import { UserResponse } from 'types/user';
+import { APIRoute } from 'const';
+import { adaptOfferToClient, adaptReviewToClient, adaptUserToClient } from 'utils';
+import { dropToken, saveToken } from 'services/token';
 import {
   loadOffersComplete,
   loadReviewsComplete,
@@ -17,10 +18,8 @@ import {
   loadCurrentOfferError,
   loadNearbyOffersComplete,
   loadNearbyOffersStart,
-  changeAuthorizationStatus,
-  logOut,
-  redirectToRoute,
-  setUserData
+  logIn,
+  logOut
 } from 'store/action';
 
 export const fetchOffersAction = (): ThunkActionResult =>
@@ -73,20 +72,15 @@ export const fetchReviewsAction = (offerId: string): ThunkActionResult =>
 
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getStore, api) => {
-    await api.get<User>(APIRoute.LogIn)
-      .then(({ data }) => {
-        dispatch(changeAuthorizationStatus(AuthorizationStatus.Auth));
-        dispatch(setUserData(data));
-      });
+    const { data } = await api.get<UserResponse>(APIRoute.LogIn);
+    dispatch(logIn(adaptUserToClient(data)));
   };
 
 export const logInAction = ({ login: email, password }: AuthData): ThunkActionResult =>
   async (dispatch, _getStore, api) => {
-    const { data } = await api.post<{token: Token}>(APIRoute.LogIn, { email, password });
+    const { data } = await api.post<UserResponse>(APIRoute.LogIn, { email, password });
     saveToken(data.token);
-    dispatch(changeAuthorizationStatus(AuthorizationStatus.Auth));
-    dispatch(checkAuthAction());
-    dispatch(redirectToRoute(AppRoute.Main));
+    dispatch(logIn(adaptUserToClient(data)));
   };
 
 export const logOutAction = (): ThunkActionResult =>
@@ -95,3 +89,4 @@ export const logOutAction = (): ThunkActionResult =>
     dropToken();
     dispatch(logOut());
   };
+
