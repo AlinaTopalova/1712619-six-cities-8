@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { useParams } from 'react-router';
 import { Store } from 'types/store';
 import { ThunkAppDispatch } from 'types/action';
+import { AuthorizationStatus } from 'const';
 import {
   fetchReviewsAction,
   fetchCurrentOfferAction,
@@ -16,7 +17,6 @@ import Loader from 'shared/loader/loader';
 import NotFoundPage from 'pages/not-found-page/not-found-page';
 import Reviews from './reviews/reviews';
 import ReviewForm from './review-form/review-form';
-import { AuthorizationStatus } from 'const';
 
 const MAX_AMOUNT_IMAGES = 6;
 
