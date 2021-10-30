@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { OfferReview } from 'types/reviews';
 import Review from './review/review';
 
-const MAX_AMOUNT_REVIEWS = 10;
+const MAX_REVIEWS_AMOUNT = 10;
 
 type ReviewsProps = {
   reviews: OfferReview[],
@@ -11,7 +11,11 @@ type ReviewsProps = {
 export default function Reviews(props: ReviewsProps): JSX.Element {
   const { reviews } = props;
 
-  const sortedReviews = useMemo(() => reviews.slice().sort((a, b) => Date.parse(b.date) - Date.parse(a.date)), [reviews]);
+  const reviewsToDisplay = useMemo(() =>
+    [...reviews]
+      .sort((a, b) => Date.parse(b.date) - Date.parse(a.date))
+      .slice(0, MAX_REVIEWS_AMOUNT),
+  [reviews]);
 
   return(
     <>
@@ -20,7 +24,7 @@ export default function Reviews(props: ReviewsProps): JSX.Element {
         <span className="reviews__amount">{reviews.length}</span>
       </h2>
       <ul className="reviews__list">
-        {sortedReviews.slice(0, MAX_AMOUNT_REVIEWS).map((review) => (
+        {reviewsToDisplay.map((review) => (
           <Review key={review.id} review={review} />
         ))}
       </ul>

@@ -1,7 +1,7 @@
 import { ThunkActionResult } from 'types/action';
 import { AuthData } from 'types/auth-data';
 import { OfferResponse} from 'types/offers';
-import { OfferReviewResponse, Review } from 'types/reviews';
+import { OfferReviewResponse, NewReview } from 'types/reviews';
 import { UserResponse } from 'types/user';
 import { ReviewPostStatus, ApiRoute } from 'const';
 import { adaptOfferToClient, adaptReviewToClient, adaptUserToClient } from 'utils';
@@ -69,7 +69,7 @@ export const fetchReviewsAction = (offerId: string): ThunkActionResult =>
     dispatch(loadReviewsComplete(normalizedReviews));
   };
 
-export const postReviewAction = ({ comment, rating } : Review, offerId: string): ThunkActionResult =>
+export const postReviewAction = ({ comment, rating } : NewReview, offerId: string): ThunkActionResult =>
   async (dispatch, _getStore, api) => {
     dispatch(setReviewPostStatus(ReviewPostStatus.Posting));
 

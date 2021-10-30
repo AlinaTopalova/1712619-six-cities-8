@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { postReviewAction } from 'store/api-action';
 import { Store } from 'types/store';
 import { ThunkAppDispatch } from 'types/action';
-import { Review } from 'types/reviews';
+import { NewReview } from 'types/reviews';
 import { ReviewPostStatus } from 'const';
 
 const MIN_COMMENT_LENGTH = 50;
@@ -42,7 +42,7 @@ const mapStateToProps = ({ reviewPostStatus }: Store) => ({
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  postReview(review: Review, offerId: string) {
+  postReview(review: NewReview, offerId: string) {
     dispatch(postReviewAction(review, offerId));
   },
 });
@@ -78,7 +78,7 @@ function ReviewForm(props: ConnectedComponentProps): JSX.Element {
       setRating('');
       setСomment('');
     }
-  }, [isReviewPosted, isReviewPosting]);
+  }, [isReviewPosted]);
 
   return (
     <form
