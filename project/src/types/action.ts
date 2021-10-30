@@ -7,7 +7,8 @@ import { User } from 'types/user';
 import {
   Cities,
   SortOptions,
-  AppRoute
+  AppRoute,
+  ReviewPostStatus
 } from 'const';
 
 export const enum ActionType {
@@ -26,6 +27,7 @@ export const enum ActionType {
   LogOut = 'user/logOut',
   RedirectToRoute = 'app/redirectToRoute',
   SetSortOffersBy = 'app/changeSortOption',
+  SetReviewPostStatus = 'user/setReviewPostStatus',
 }
 
 export type ChangeCurrentCityAction = {
@@ -97,6 +99,11 @@ export type RedirectToRouteAction = {
   payload: AppRoute,
 }
 
+export type SetReviewPostStatusAction = {
+  type: ActionType.SetReviewPostStatus,
+  payload: ReviewPostStatus,
+}
+
 export type Actions =
   | LogInAction
   | ChangeCurrentCityAction
@@ -113,6 +120,7 @@ export type Actions =
   | LogOutAction
   | RedirectToRouteAction
   | SetSortOffersByAction
+  | SetReviewPostStatusAction
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, Store, AxiosInstance, Actions>;
 

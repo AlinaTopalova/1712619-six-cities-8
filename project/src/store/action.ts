@@ -16,12 +16,14 @@ import {
   LoadNearbyOffersStartAction,
   LogInAction,
   LogOutAction,
-  RedirectToRouteAction
+  RedirectToRouteAction,
+  SetReviewPostStatusAction
 } from 'types/action';
 import {
   Cities,
   SortOptions,
-  AppRoute
+  AppRoute,
+  ReviewPostStatus
 } from 'const';
 
 export const changeCurrentCity = (currentCity: Cities): ChangeCurrentCityAction => ({
@@ -86,4 +88,9 @@ export const logOut = (): LogOutAction => ({
 export const redirectToRoute = (url: AppRoute): RedirectToRouteAction => ({
   type: ActionType.RedirectToRoute,
   payload: url,
+});
+
+export const setReviewPostStatus = (reviewPostStatus: ReviewPostStatus): SetReviewPostStatusAction => ({
+  type: ActionType.SetReviewPostStatus,
+  payload: reviewPostStatus,
 });
