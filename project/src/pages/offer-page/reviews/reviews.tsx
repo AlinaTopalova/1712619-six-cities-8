@@ -18,7 +18,7 @@ export default function Reviews(props: ReviewsProps): JSX.Element {
         <span className="reviews__amount">{reviews.length}</span>
       </h2>
       <ul className="reviews__list">
-        {sortedReviews.map((review) => (
+        {sortedReviews.slice(0,10).map((review) => (
           <Review key={review.id} review={review} />
         ))}
       </ul>

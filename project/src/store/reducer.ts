@@ -3,7 +3,8 @@ import { Actions, ActionType } from 'types/action';
 import {
   Cities,
   SortOptions,
-  AuthorizationStatus
+  AuthorizationStatus,
+  ReviewPostStatus
 } from 'const';
 
 const initialState: Store = {
@@ -20,6 +21,7 @@ const initialState: Store = {
   isOffersLoading: false,
   isReviewsLoading: false,
   user: null,
+  reviewPostStatus: ReviewPostStatus.Initial,
 };
 
 const reducer = (state: Store = initialState, action: Actions): Store => {
@@ -79,6 +81,11 @@ const reducer = (state: Store = initialState, action: Actions): Store => {
         ...state,
         user: null,
         authorizationStatus: AuthorizationStatus.NoAuth,
+      };
+    case ActionType.SetReviewPostStatus:
+      return {
+        ...state,
+        reviewPostStatus: action.payload,
       };
     default:
       return state;

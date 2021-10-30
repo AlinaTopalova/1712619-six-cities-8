@@ -1,8 +1,10 @@
-import { ChangeEvent, FormEvent, Fragment, useState} from 'react';
+import { ChangeEvent, FormEvent, Fragment, useEffect, useState} from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { postReviewAction } from 'store/api-action';
+import { Store } from 'types/store';
 import { ThunkAppDispatch } from 'types/action';
 import { NewReview } from 'types/reviews';
+import { ReviewPostStatus } from 'const';
 
 const MIN_COMMENT_LENGTH = 50;
 
@@ -33,18 +35,20 @@ type ReviewFormProps = {
   offerId: string,
 }
 
+const mapStateToProps = ({ reviewPostStatus }: Store) => ({ reviewPostStatus });
+
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   postReview(newReview: NewReview, offerId: string) {
     dispatch(postReviewAction(newReview, offerId));
   },
 });
 
-const connector = connect(null, mapDispatchToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & ReviewFormProps;
 
 function ReviewForm(props: ConnectedComponentProps): JSX.Element {
-  const { postReview, offerId } = props;
+  const { postReview, reviewPostStatus, offerId } = props;
 
   const [rating, setRating] = useState('');
 
@@ -66,9 +70,14 @@ function ReviewForm(props: ConnectedComponentProps): JSX.Element {
       comment,
       rating: Number(rating),
     }, offerId);
-    setRating('');
-    setСomment('');
   };
+
+  useEffect(() => {
+    if (reviewPostStatus === ReviewPostStatus.Success) {
+      setRating('');
+      setСomment('');
+    }
+  }, [reviewPostStatus]);
 
   return (
     <form
@@ -87,6 +96,7 @@ function ReviewForm(props: ConnectedComponentProps): JSX.Element {
               id={`${value}-stars`}
               type="radio"
               onChange={handleRatingChange}
+              disabled={reviewPostStatus === ReviewPostStatus.Loading}
             />
             <label
               htmlFor={`${value}-stars`}
@@ -108,6 +118,7 @@ function ReviewForm(props: ConnectedComponentProps): JSX.Element {
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={handleCommentChange}
         maxLength={300}
+        disabled={reviewPostStatus === ReviewPostStatus.Loading}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -116,11 +127,16 @@ function ReviewForm(props: ConnectedComponentProps): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!isFormCompleted}
+          disabled={!isFormCompleted || reviewPostStatus === ReviewPostStatus.Loading}
         >
           Submit
         </button>
       </div>
+      {reviewPostStatus === ReviewPostStatus.Error && (
+        <p className="reviews__help" style={{color: 'red'}}>
+          Error occured while posting review
+        </p>
+      )}
     </form>
   );
 }

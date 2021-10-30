@@ -33,3 +33,10 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
+
+export enum ReviewPostStatus {
+  Initial = 'INITIAL',
+  Loading = 'LOADING',
+  Success = 'SUCCES',
+  Error = 'ERROR',
+}
