@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
 import { ThunkAppDispatch } from 'types/action';
 import { Store } from 'types/store';
-import { AppRoute, AuthorizationStatus } from 'const';
+import { AppRoute, AuthStatus } from 'const';
 import { logOutAction } from 'store/api-action';
 import Logo from 'shared/logo/logo';
 
@@ -11,8 +11,8 @@ type HeaderProps = {
   showUserBlock?: boolean,
 }
 
-const mapStateToProps = ({ authorizationStatus, user }: Store) => ({
-  authorizationStatus,
+const mapStateToProps = ({ authStatus, user }: Store) => ({
+  authStatus,
   user,
 });
 
@@ -28,9 +28,9 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & HeaderProps;
 
 function Header(props: ConnectedComponentProps): JSX.Element {
-  const { authorizationStatus, user, onLogOutClick, isMainPage = false, showUserBlock = true } = props;
+  const { authStatus, user, onLogOutClick, isMainPage = false, showUserBlock = true } = props;
 
-  const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
+  const isAuthorized = authStatus === AuthStatus.Auth;
 
   const handleLogOutClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     evt.preventDefault();

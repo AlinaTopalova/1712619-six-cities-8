@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { useParams } from 'react-router';
 import { Store } from 'types/store';
 import { ThunkAppDispatch } from 'types/action';
-import { AuthorizationStatus } from 'const';
+import { AuthStatus } from 'const';
 import {
   fetchReviewsAction,
   fetchCurrentOfferAction,
@@ -21,7 +21,7 @@ import ReviewForm from './review-form/review-form';
 const MAX_AMOUNT_IMAGES = 6;
 
 const mapStateToProps = ({
-  authorizationStatus,
+  authStatus,
   currentOffer,
   reviews,
   nearbyOffers,
@@ -30,7 +30,7 @@ const mapStateToProps = ({
   isCurrentOfferLoadingError,
   isNearbyOffersLoading,
 }: Store) => ({
-  authorizationStatus,
+  authStatus,
   currentOffer,
   reviews,
   nearbyOffers,
@@ -51,7 +51,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function OfferPage(props: PropsFromRedux): JSX.Element {
   const {
-    authorizationStatus,
+    authStatus,
     currentOffer,
     reviews,
     nearbyOffers,
@@ -198,7 +198,7 @@ function OfferPage(props: PropsFromRedux): JSX.Element {
                 {isReviewsLoading ? <Loader /> : (
                   <section className="property__reviews reviews">
                     <Reviews reviews={reviews} />
-                    {authorizationStatus === AuthorizationStatus.Auth && (
+                    {authStatus === AuthStatus.Auth && (
                       <ReviewForm offerId={offerId} />
                     )}
                   </section>

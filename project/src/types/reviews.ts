@@ -20,7 +20,7 @@ export type OfferReviewResponse = Omit<OfferReview, 'user'> & {
   }
 };
 
-export type NewReview = {
+export type Review = {
   comment: string,
   rating: number,
 };

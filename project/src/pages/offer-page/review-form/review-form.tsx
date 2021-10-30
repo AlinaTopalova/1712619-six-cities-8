@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { postReviewAction } from 'store/api-action';
 import { Store } from 'types/store';
 import { ThunkAppDispatch } from 'types/action';
-import { NewReview } from 'types/reviews';
+import { Review } from 'types/reviews';
 import { ReviewPostStatus } from 'const';
 
 const MIN_COMMENT_LENGTH = 50;
@@ -35,11 +35,15 @@ type ReviewFormProps = {
   offerId: string,
 }
 
-const mapStateToProps = ({ reviewPostStatus }: Store) => ({ reviewPostStatus });
+const mapStateToProps = ({ reviewPostStatus }: Store) => ({
+  isReviewPosting: reviewPostStatus === ReviewPostStatus.Posting,
+  isReviewPosted: reviewPostStatus === ReviewPostStatus.Posted,
+  isReviewNotPosted: reviewPostStatus === ReviewPostStatus.NotPosted,
+});
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  postReview(newReview: NewReview, offerId: string) {
-    dispatch(postReviewAction(newReview, offerId));
+  postReview(review: Review, offerId: string) {
+    dispatch(postReviewAction(review, offerId));
   },
 });
 
@@ -48,7 +52,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & ReviewFormProps;
 
 function ReviewForm(props: ConnectedComponentProps): JSX.Element {
-  const { postReview, reviewPostStatus, offerId } = props;
+  const { postReview, isReviewPosting, isReviewPosted, isReviewNotPosted, offerId } = props;
 
   const [rating, setRating] = useState('');
 
@@ -66,18 +70,15 @@ function ReviewForm(props: ConnectedComponentProps): JSX.Element {
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    postReview({
-      comment,
-      rating: Number(rating),
-    }, offerId);
+    postReview({comment, rating: Number(rating)}, offerId);
   };
 
   useEffect(() => {
-    if (reviewPostStatus === ReviewPostStatus.Success) {
+    if (isReviewPosted) {
       setRating('');
       setСomment('');
     }
-  }, [reviewPostStatus]);
+  }, [isReviewPosted, isReviewPosting]);
 
   return (
     <form
@@ -96,7 +97,7 @@ function ReviewForm(props: ConnectedComponentProps): JSX.Element {
               id={`${value}-stars`}
               type="radio"
               onChange={handleRatingChange}
-              disabled={reviewPostStatus === ReviewPostStatus.Loading}
+              disabled={isReviewPosting}
             />
             <label
               htmlFor={`${value}-stars`}
@@ -118,7 +119,7 @@ function ReviewForm(props: ConnectedComponentProps): JSX.Element {
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={handleCommentChange}
         maxLength={300}
-        disabled={reviewPostStatus === ReviewPostStatus.Loading}
+        disabled={isReviewPosting}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -127,12 +128,12 @@ function ReviewForm(props: ConnectedComponentProps): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!isFormCompleted || reviewPostStatus === ReviewPostStatus.Loading}
+          disabled={!isFormCompleted || isReviewPosting}
         >
           Submit
         </button>
       </div>
-      {reviewPostStatus === ReviewPostStatus.Error && (
+      {isReviewNotPosted && (
         <p className="reviews__help" style={{color: 'red'}}>
           Error occured while posting review
         </p>

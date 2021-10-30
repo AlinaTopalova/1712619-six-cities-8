@@ -5,7 +5,7 @@ export const enum AppRoute {
   Offer = '/offer',
 }
 
-export const enum APIRoute {
+export const enum ApiRoute {
   Offers = '/hotels',
   Reviews = '/comments',
   LogIn = '/login',
@@ -28,15 +28,15 @@ export enum Cities {
   Dusseldorf = 'Dusseldorf',
 }
 
-export enum AuthorizationStatus {
+export enum AuthStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
 
 export enum ReviewPostStatus {
-  Initial = 'INITIAL',
-  Loading = 'LOADING',
-  Success = 'SUCCES',
-  Error = 'ERROR',
+  Pristine = 'PRISTINE',
+  Posting = 'POSTING',
+  Posted = 'POSTED',
+  NotPosted = 'NOT_POSTED',
 }

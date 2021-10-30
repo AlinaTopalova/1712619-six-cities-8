@@ -4,25 +4,25 @@ import { connect, ConnectedProps } from 'react-redux';
 import { ThunkAppDispatch } from 'types/action';
 import { AuthData } from 'types/auth-data';
 import { Store } from 'types/store';
-import { AppRoute, AuthorizationStatus } from 'const';
+import { AppRoute, AuthStatus } from 'const';
 import { logInAction } from 'store/api-action';
 import Header from 'shared/header/header';
 
-const validatePassword = (inputValue: string) => {
+const validatePassword = (password: string) => {
   const passwordReg = /[a-z][0-9]/;
 
-  if (inputValue.includes(' ')) {
-    return 'Пароль не должен содержать пробел';
+  if (password.includes(' ')) {
+    return 'Password must not contain a space';
   }
-  if (!passwordReg.test(inputValue)) {
-    return 'Пароль должен содержать минимум одну букву и цифру';
+  if (!passwordReg.test(password)) {
+    return 'Password must contain at least one letter and number';
   }
   return '';
 };
 
-const mapStateToProps = ({ user, authorizationStatus }: Store) => ({
+const mapStateToProps = ({ user, authStatus }: Store) => ({
   user,
-  authorizationStatus,
+  authStatus,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
@@ -36,7 +36,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function LoginPage(props: PropsFromRedux): JSX.Element {
-  const { authorizationStatus, onSubmit } = props;
+  const { authStatus, onSubmit } = props;
 
   const loginRef = useRef<HTMLInputElement | null>(null);
 
@@ -59,7 +59,7 @@ function LoginPage(props: PropsFromRedux): JSX.Element {
     }
   };
 
-  if (authorizationStatus === AuthorizationStatus.Auth) {
+  if (authStatus === AuthStatus.Auth) {
     return <Redirect to={AppRoute.Main}/>;
   }
 
