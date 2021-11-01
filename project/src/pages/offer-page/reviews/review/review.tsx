@@ -5,10 +5,13 @@ type ReviewProps = {
   review: OfferReview,
 }
 
-const formatDateDisplayValue = (date: string) => new Date(date).toLocaleDateString('en-US', {day: 'numeric', month: 'long'});
-const formatDateAttribute = (date: string) => new Date(date).toLocaleDateString('en-CA');
+const formatDateDisplayValue = (date: string) =>
+  new Date(date).toLocaleDateString('en-US', {day: 'numeric', month: 'long'});
 
-export default function Review(props: ReviewProps): JSX.Element {
+const formatDateAttribute = (date: string) =>
+  new Date(date).toLocaleDateString('en-CA');
+
+function Review(props: ReviewProps): JSX.Element {
   const { review } = props;
 
   return (
@@ -47,3 +50,5 @@ export default function Review(props: ReviewProps): JSX.Element {
     </li>
   );
 }
+
+export default Review;

@@ -27,7 +27,7 @@ type OffersMapProps = {
   offers: Offer[],
 };
 
-export default function OffersMap (props: OffersMapProps): JSX.Element {
+function OffersMap (props: OffersMapProps): JSX.Element {
   const { zoomOnOffer = true, activeOffer, offers } = props;
 
   const mapRef = useRef(null);
@@ -98,3 +98,5 @@ export default function OffersMap (props: OffersMapProps): JSX.Element {
     />
   );
 }
+
+export default OffersMap;

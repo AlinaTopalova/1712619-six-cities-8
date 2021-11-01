@@ -1,10 +1,8 @@
 import { FormEvent, useRef } from 'react';
 import { Redirect } from 'react-router';
-import { connect, ConnectedProps } from 'react-redux';
-import { ThunkAppDispatch } from 'types/action';
-import { AuthData } from 'types/auth-data';
-import { Store } from 'types/store';
+import { useSelector, useDispatch } from 'react-redux';
 import { AppRoute, AuthStatus } from 'const';
+import { getAuthStatus } from 'store/auth-store/selectors';
 import { logInAction } from 'store/api-action';
 import Header from 'shared/header/header';
 
@@ -20,23 +18,10 @@ const validatePassword = (password: string) => {
   return '';
 };
 
-const mapStateToProps = ({ user, authStatus }: Store) => ({
-  user,
-  authStatus,
-});
+function LoginPage(): JSX.Element {
+  const authStatus = useSelector(getAuthStatus);
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSubmit(authData: AuthData) {
-    dispatch(logInAction(authData));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function LoginPage(props: PropsFromRedux): JSX.Element {
-  const { authStatus, onSubmit } = props;
+  const dispatch = useDispatch();
 
   const loginRef = useRef<HTMLInputElement | null>(null);
 
@@ -52,10 +37,10 @@ function LoginPage(props: PropsFromRedux): JSX.Element {
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (loginRef.current && passwordRef.current) {
-      onSubmit({
+      dispatch(logInAction({
         login: loginRef.current.value,
         password: passwordRef.current.value,
-      });
+      }));
     }
   };
 
@@ -120,8 +105,5 @@ function LoginPage(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export { LoginPage };
-
-export default connector(LoginPage);
-
+export default LoginPage;
 

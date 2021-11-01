@@ -1,6 +1,6 @@
 import Logo from 'shared/logo/logo';
 
-export default function Footer(): JSX.Element {
+function Footer(): JSX.Element {
   return (
     <footer className="footer container">
       <Logo
@@ -11,3 +11,5 @@ export default function Footer(): JSX.Element {
     </footer>
   );
 }
+
+export default Footer;

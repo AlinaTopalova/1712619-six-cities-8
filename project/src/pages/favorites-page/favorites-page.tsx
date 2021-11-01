@@ -9,7 +9,7 @@ type FavoritesPageProps = {
 
 type GrouppedOffers = Record<string, Offer[]>
 
-export default function FavoritesPage(props: FavoritesPageProps): JSX.Element {
+function FavoritesPage(props: FavoritesPageProps): JSX.Element {
   const { offersData } = props;
 
   const favoriteOffers = offersData.filter((offer) => offer.isFavorite);
@@ -72,3 +72,6 @@ export default function FavoritesPage(props: FavoritesPageProps): JSX.Element {
     </div>
   );
 }
+
+export default FavoritesPage;
+

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Offer } from 'types/offers';
 import { AppRoute } from 'const';
@@ -39,12 +40,18 @@ function OfferCard(props: OfferCardProps): JSX.Element {
     onMouseLeave,
   } = props;
 
+  const [favoriteOffer, setFavoriteOffer] = useState(0);
+
   const handleMouseEnter = () => {
     onMouseEnter && onMouseEnter(offerData);
   };
 
   const handleMouseLeave = () => {
     onMouseLeave && onMouseLeave();
+  };
+
+  const handleFavoriteBtnClick = () => {
+    favoriteOffer ? setFavoriteOffer(0) : setFavoriteOffer(1);
   };
 
   return (
@@ -76,8 +83,9 @@ function OfferCard(props: OfferCardProps): JSX.Element {
             </span>
           </div>
           <button
+            onClick={handleFavoriteBtnClick}
             className={`place-card__bookmark-button button
-            ${offerData.isFavorite ? 'place-card__bookmark-button--active' : ''}`}
+            ${favoriteOffer ? 'place-card__bookmark-button--active' : ''}`}
             type="button"
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">

@@ -8,7 +8,7 @@ type LogoProps = {
   isActive?: boolean,
 }
 
-export default function Logo(props: LogoProps): JSX.Element {
+function Logo(props: LogoProps): JSX.Element {
   const { width, height, className, isActive = false } = props;
 
   return (
@@ -29,3 +29,5 @@ export default function Logo(props: LogoProps): JSX.Element {
     </Link>
   );
 }
+
+export default Logo;

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from 'const';
 
-export default function NotFoundPage(): JSX.Element {
+function NotFoundPage(): JSX.Element {
 
   return (
     <div className='not-found-page property__name'>
@@ -20,3 +20,5 @@ export default function NotFoundPage(): JSX.Element {
     </div>
   );
 }
+
+export default NotFoundPage;
