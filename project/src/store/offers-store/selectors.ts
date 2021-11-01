@@ -1,4 +1,4 @@
-import { NameSpace } from 'store/root-reducer';
+import { StoreNameSpace } from 'store/root-reducer';
 import { Offer } from 'types/offers';
 import { Store } from 'types/store';
 import { createSelector } from 'reselect';
@@ -6,10 +6,10 @@ import { getCurrentCity, getSortOffersBy } from 'store/app-store/selectors';
 import { SortOptions } from 'const';
 
 export const getOffers = (store: Store): Offer[] =>
-  store[NameSpace.offers].offers;
+  store[StoreNameSpace.offers].offers;
 
 export const getIsOffersLoading = (store: Store): boolean =>
-  store[NameSpace.offers].isOffersLoading;
+  store[StoreNameSpace.offers].isOffersLoading;
 
 export const getFilteredOffers = createSelector(
   [getOffers, getCurrentCity],

@@ -42,11 +42,17 @@ type ReviewFormProps = {
 function ReviewForm(props: ReviewFormProps): JSX.Element {
   const { offerId } = props;
 
-  const isReviewPosting = useSelector(getReviewPostStatus) === ReviewPostStatus.Posting;
+  const reviewPostStatus = useSelector(getReviewPostStatus);
 
-  const isReviewPosted = useSelector(getReviewPostStatus) === ReviewPostStatus.Posted;
-
-  const isReviewNotPosted = useSelector(getReviewPostStatus) === ReviewPostStatus.NotPosted;
+  const [
+    isReviewPosting,
+    isReviewPosted,
+    isReviewNotPosted,
+  ] = [
+    reviewPostStatus === ReviewPostStatus.Posting,
+    reviewPostStatus === ReviewPostStatus.Posted,
+    reviewPostStatus === ReviewPostStatus.NotPosted,
+  ];
 
   const dispatch = useDispatch();
 

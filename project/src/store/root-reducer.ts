@@ -6,22 +6,22 @@ import { nearbyOffersReducer } from './nearby-offers-store/nearby-offers-store';
 import { offerReducer } from './offer-store/offer-store';
 import { reviewsReducer } from './reviews-store/reviews-store';
 
-export enum NameSpace {
+export enum StoreNameSpace {
   app = 'APP',
   auth = 'AUTH',
   offers = 'OFFERS',
-  nearbyOffers = 'NEARBYOFFERS',
+  nearbyOffers = 'NEARBY_OFFERS',
   offer = 'OFFER',
   reviews = 'REVIEWS',
 }
 
 export const rootReducer = combineReducers({
-  [NameSpace.app]: appReducer,
-  [NameSpace.auth]: authReducer,
-  [NameSpace.offers]: offersReducer,
-  [NameSpace.nearbyOffers]: nearbyOffersReducer,
-  [NameSpace.offer]: offerReducer,
-  [NameSpace.reviews]: reviewsReducer,
+  [StoreNameSpace.app]: appReducer,
+  [StoreNameSpace.auth]: authReducer,
+  [StoreNameSpace.offers]: offersReducer,
+  [StoreNameSpace.nearbyOffers]: nearbyOffersReducer,
+  [StoreNameSpace.offer]: offerReducer,
+  [StoreNameSpace.reviews]: reviewsReducer,
 });
 
 export type RootStore = ReturnType<typeof rootReducer>;
