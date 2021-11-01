@@ -1,8 +1,8 @@
 import { Route, RouteProps, Redirect } from 'react-router-dom';
-import { connect, ConnectedProps } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { History } from 'history';
-import { Store } from 'types/store';
 import { AppRoute, AuthStatus } from 'const';
+import { getAuthStatus } from 'store/auth-store/selectors';
 
 type RenderFuncProps = {
   history: History<unknown>;
@@ -10,20 +10,12 @@ type RenderFuncProps = {
 
 type PrivateRouteProps = RouteProps & {
   render: (props: RenderFuncProps) => JSX.Element;
-  authStatus: AuthStatus;
 };
 
-const mapStateToProps = ({ authStatus }: Store) => ({
-  authStatus,
-});
+function PrivateRoute(props: PrivateRouteProps): JSX.Element {
+  const { exact, path, render} = props;
 
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & PrivateRouteProps;
-
-function PrivateRoute(props: ConnectedComponentProps): JSX.Element {
-  const { exact, path, render, authStatus} = props;
+  const authStatus = useSelector(getAuthStatus);
 
   if (authStatus !== AuthStatus.Auth) {
     return <Redirect to={AppRoute.SignIn}/>;
@@ -38,8 +30,5 @@ function PrivateRoute(props: ConnectedComponentProps): JSX.Element {
   );
 }
 
-export { PrivateRoute };
-
-export default connector(PrivateRoute);
-
+export default PrivateRoute;
 

@@ -17,7 +17,7 @@ export default function Reviews(props: ReviewsProps): JSX.Element {
       .slice(0, MAX_REVIEWS_AMOUNT),
   [reviews]);
 
-  return(
+  return (
     <>
       <h2 className="reviews__title">
         Reviews &middot;

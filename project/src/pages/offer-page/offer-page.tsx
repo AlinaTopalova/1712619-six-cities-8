@@ -1,15 +1,27 @@
 import { useEffect, useMemo } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
-import { Store } from 'types/store';
-import { ThunkAppDispatch } from 'types/action';
 import { AuthStatus } from 'const';
+import { calcRatingStarsWidth } from 'utils';
 import {
   fetchReviewsAction,
   fetchCurrentOfferAction,
   fetchNearbyOffersAction
 } from 'store/api-action';
-import { calcRatingStarsWidth } from 'utils';
+import { getAuthStatus } from 'store/auth-store/selectors';
+import {
+  getCurrentOffer,
+  getIsCurrentOfferLoading,
+  getIsCurrentOfferLoadingError
+} from 'store/offer-store/selectors';
+import {
+  getIsReviewsLoading,
+  getReviews
+} from 'store/reviews-store/selectors';
+import {
+  getIsNearbyOffersLoading,
+  getNearbyOffers
+} from 'store/nearby-offers-store/selectors';
 import Header from 'shared/header/header';
 import OfferCard from 'shared/offer-card/offer-card';
 import OffersMap from 'shared/offers-map/offers-map';
@@ -20,62 +32,32 @@ import ReviewForm from './review-form/review-form';
 
 const MAX_AMOUNT_IMAGES = 6;
 
-const mapStateToProps = ({
-  authStatus,
-  currentOffer,
-  reviews,
-  nearbyOffers,
-  isReviewsLoading,
-  isCurrentOfferLoading,
-  isCurrentOfferLoadingError,
-  isNearbyOffersLoading,
-}: Store) => ({
-  authStatus,
-  currentOffer,
-  reviews,
-  nearbyOffers,
-  isReviewsLoading,
-  isCurrentOfferLoading,
-  isCurrentOfferLoadingError,
-  isNearbyOffersLoading,
-});
+function OfferPage(): JSX.Element {
+  const authStatus = useSelector(getAuthStatus);
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  fetchCurrentOffer: (offerId: string) => dispatch(fetchCurrentOfferAction(offerId)),
-  fetchReviews: (offerId: string) => dispatch(fetchReviewsAction(offerId)),
-  fetchNearbyOffer: (offerId: string) => dispatch(fetchNearbyOffersAction(offerId)),
-});
+  const currentOffer = useSelector(getCurrentOffer);
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
+  const reviews = useSelector(getReviews);
 
-function OfferPage(props: PropsFromRedux): JSX.Element {
-  const {
-    authStatus,
-    currentOffer,
-    reviews,
-    nearbyOffers,
-    fetchReviews,
-    fetchCurrentOffer,
-    fetchNearbyOffer,
-    isReviewsLoading,
-    isCurrentOfferLoading,
-    isCurrentOfferLoadingError,
-    isNearbyOffersLoading,
-  } = props;
+  const nearbyOffers = useSelector(getNearbyOffers);
+
+  const isReviewsLoading = useSelector(getIsReviewsLoading);
+
+  const isCurrentOfferLoading = useSelector(getIsCurrentOfferLoading);
+
+  const isCurrentOfferLoadingError = useSelector(getIsCurrentOfferLoadingError);
+
+  const isNearbyOffersLoading = useSelector(getIsNearbyOffersLoading);
+
+  const dispatch = useDispatch();
 
   const { offerId } = useParams<{ offerId: string }>();
 
   useEffect(() => {
-    fetchReviews(offerId);
-    fetchCurrentOffer(offerId);
-    fetchNearbyOffer(offerId);
-  },[
-    fetchCurrentOffer,
-    fetchNearbyOffer,
-    fetchReviews,
-    offerId,
-  ]);
+    dispatch(fetchCurrentOfferAction(offerId));
+    dispatch(fetchReviewsAction(offerId));
+    dispatch(fetchNearbyOffersAction(offerId));
+  },[dispatch, offerId]);
 
   const offers = useMemo(() => {
     if (!currentOffer) {
@@ -168,9 +150,8 @@ function OfferPage(props: PropsFromRedux): JSX.Element {
                 <div className="property__host">
                   <h2 className="property__host-title">Meet the host</h2>
                   <div className="property__host-user user">
-                    <div className={currentOffer.host.isPro ?
-                      'property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper' :
-                      'property__avatar-wrapper user__avatar-wrapper'}
+                    <div className={`property__avatar-wrapper user__avatar-wrapper
+                      ${currentOffer.host.isPro ? 'property__avatar-wrapper--pro' : ''}`}
                     >
                       <img
                         className="property__avatar user__avatar"
@@ -240,7 +221,6 @@ function OfferPage(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export { OfferPage };
+export default OfferPage;
 
-export default connector(OfferPage);
 

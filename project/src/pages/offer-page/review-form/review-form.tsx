@@ -1,10 +1,14 @@
-import { ChangeEvent, FormEvent, Fragment, useEffect, useState} from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { postReviewAction } from 'store/api-action';
-import { Store } from 'types/store';
-import { ThunkAppDispatch } from 'types/action';
-import { NewReview } from 'types/reviews';
+import {
+  ChangeEvent,
+  FormEvent,
+  Fragment,
+  useEffect,
+  useState
+} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { ReviewPostStatus } from 'const';
+import { postReviewAction } from 'store/api-action';
+import { getReviewPostStatus } from 'store/reviews-store/selectors';
 
 const MIN_COMMENT_LENGTH = 50;
 
@@ -35,24 +39,22 @@ type ReviewFormProps = {
   offerId: string,
 }
 
-const mapStateToProps = ({ reviewPostStatus }: Store) => ({
-  isReviewPosting: reviewPostStatus === ReviewPostStatus.Posting,
-  isReviewPosted: reviewPostStatus === ReviewPostStatus.Posted,
-  isReviewNotPosted: reviewPostStatus === ReviewPostStatus.NotPosted,
-});
+function ReviewForm(props: ReviewFormProps): JSX.Element {
+  const { offerId } = props;
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  postReview(review: NewReview, offerId: string) {
-    dispatch(postReviewAction(review, offerId));
-  },
-});
+  const reviewPostStatus = useSelector(getReviewPostStatus);
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & ReviewFormProps;
+  const [
+    isReviewPosting,
+    isReviewPosted,
+    isReviewNotPosted,
+  ] = [
+    reviewPostStatus === ReviewPostStatus.Posting,
+    reviewPostStatus === ReviewPostStatus.Posted,
+    reviewPostStatus === ReviewPostStatus.NotPosted,
+  ];
 
-function ReviewForm(props: ConnectedComponentProps): JSX.Element {
-  const { postReview, isReviewPosting, isReviewPosted, isReviewNotPosted, offerId } = props;
+  const dispatch = useDispatch();
 
   const [rating, setRating] = useState('');
 
@@ -60,17 +62,17 @@ function ReviewForm(props: ConnectedComponentProps): JSX.Element {
 
   const isFormCompleted = comment.length > MIN_COMMENT_LENGTH && Boolean(rating);
 
-  const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    setRating(evt.target.value);
-  };
-
   const handleCommentChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     setСomment(evt.target.value);
   };
 
+  const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    setRating(evt.target.value);
+  };
+
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    postReview({comment, rating: Number(rating)}, offerId);
+    dispatch(postReviewAction({comment, rating: Number(rating)}, offerId));
   };
 
   useEffect(() => {
@@ -85,7 +87,12 @@ function ReviewForm(props: ConnectedComponentProps): JSX.Element {
       onSubmit={handleSubmit}
       className="reviews__form form"
     >
-      <label className="reviews__label form__label" htmlFor="review">Your review</label>
+      <label
+        className="reviews__label form__label"
+        htmlFor="review"
+      >
+        Your review
+      </label>
       <div className="reviews__rating-form form__rating">
         {Ratings.map(({ title, value }) => (
           <Fragment key={value}>
@@ -123,7 +130,10 @@ function ReviewForm(props: ConnectedComponentProps): JSX.Element {
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
-          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
+          To submit review please make sure to set
+          <span className="reviews__star">rating</span>
+          and describe your stay with at least
+          <b className="reviews__text-amount">50 characters</b>.
         </p>
         <button
           className="reviews__submit form__submit button"
@@ -142,6 +152,4 @@ function ReviewForm(props: ConnectedComponentProps): JSX.Element {
   );
 }
 
-export { ReviewForm };
-
-export default connector(ReviewForm);
+export default ReviewForm;

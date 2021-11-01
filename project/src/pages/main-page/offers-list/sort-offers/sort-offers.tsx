@@ -1,27 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-import { Dispatch } from 'redux';
-import { connect, ConnectedProps } from 'react-redux';
-import { Store } from 'types/store';
-import { Actions } from 'types/action';
+import { useSelector, useDispatch } from 'react-redux';
 import { SortOptions } from 'const';
 import { setSortOffersBy } from 'store/action';
+import { getSortOffersBy } from 'store/app-store/selectors';
 
-const mapStateToProps = ({ sortOffersBy }: Store) => (
-  { sortOffersBy }
-);
+function SortOffers(): JSX.Element {
+  const sortOffersBy = useSelector(getSortOffersBy);
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onSortChange: (sortOption: SortOptions) => {
-    dispatch(setSortOffersBy(sortOption));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function SortOffers(props: PropsFromRedux): JSX.Element {
-  const { sortOffersBy, onSortChange } = props;
+  const dispatch = useDispatch();
 
   const [isSortMenuActive, setIsSortMenuActive] = useState(false);
 
@@ -80,7 +66,7 @@ function SortOffers(props: PropsFromRedux): JSX.Element {
               'places__option--active' : ''}`}
               tabIndex={0}
               onClick={() => {
-                onSortChange(option);
+                dispatch(setSortOffersBy(option));
                 toogleSortMenu();
               }}
             >
@@ -93,6 +79,4 @@ function SortOffers(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export { SortOffers };
-
-export default connector(SortOffers);
+export default SortOffers;

@@ -2,7 +2,7 @@ type NoOffersProps = {
   currentCity: string,
 }
 
-export default function NoOffers(props: NoOffersProps): JSX.Element {
+function NoOffers(props: NoOffersProps): JSX.Element {
   const { currentCity } = props;
 
   return (
@@ -17,3 +17,5 @@ export default function NoOffers(props: NoOffersProps): JSX.Element {
     </>
   );
 }
+
+export default NoOffers;
