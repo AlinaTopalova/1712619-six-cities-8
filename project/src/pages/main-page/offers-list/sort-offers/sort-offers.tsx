@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { SortOptions } from 'const';
-import { setSortOffersBy } from 'store/action';
+import { setSortOffersBy } from 'store/app-store/actions';
 import { getSortOffersBy } from 'store/app-store/selectors';
 
 function SortOffers(): JSX.Element {

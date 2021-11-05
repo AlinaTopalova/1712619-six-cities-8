@@ -16,6 +16,15 @@ export const nearbyOffersReducer = (state = initialState, action: Actions): Near
       return {
         ...state, nearbyOffers: action.payload, isNearbyOffersLoading: false,
       };
+    case ActionType.UpdateNearbyOffers:
+      return {
+        ...state, nearbyOffers: state.nearbyOffers.map((offer) => {
+          if (offer.id !== action.payload.id) {
+            return offer;
+          }
+          return action.payload;
+        }),
+      };
     default:
       return state;
   }

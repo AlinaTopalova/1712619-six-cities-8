@@ -1,3 +1,4 @@
+import { Cities } from 'const';
 import { Offer, OfferResponse } from 'types/offers';
 import { OfferReview, OfferReviewResponse } from 'types/reviews';
 import { User, UserResponse } from 'types/user';
@@ -62,3 +63,8 @@ export const adaptUserToClient = (userData: UserResponse): User => ({
   name: userData.name,
   token: userData.token,
 });
+
+export const getRandomCity = (arr: Cities[]): Cities => {
+  const rand = Math.floor(Math.random() * arr.length);
+  return arr[rand];
+};

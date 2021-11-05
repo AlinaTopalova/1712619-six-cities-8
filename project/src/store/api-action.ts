@@ -1,27 +1,42 @@
 import { ThunkActionResult } from 'types/action';
 import { AuthData } from 'types/auth-data';
-import { OfferResponse} from 'types/offers';
+import { OfferResponse, Offer } from 'types/offers';
 import { OfferReviewResponse, NewReview } from 'types/reviews';
 import { UserResponse } from 'types/user';
-import { ReviewPostStatus, ApiRoute } from 'const';
-import { adaptOfferToClient, adaptReviewToClient, adaptUserToClient } from 'utils';
-import { dropToken, saveToken } from 'services/token';
+import { ReviewPostStatus, ApiRoute, AppRoute } from 'const';
 import {
-  loadOffersComplete,
-  loadReviewsComplete,
-  loadOffersStart,
-  loadReviewsStart,
+  adaptOfferToClient,
+  adaptReviewToClient,
+  adaptUserToClient
+} from 'utils';
+import { dropToken, saveToken } from 'services/token';
+import { logIn, logOut } from 'store/auth-store/actions';
+import {
+  loadFavoritesOffersComplete,
+  loadFavoritesOffersStart
+} from 'store/favorites-store/actions';
+import {
+  loadNearbyOffersComplete,
+  loadNearbyOffersStart
+} from 'store/nearby-offers-store/actions';
+import {
   loadCurrentOfferComplete,
   loadCurrentOfferStart,
-  loadCurrentOfferError,
-  loadNearbyOffersComplete,
-  loadNearbyOffersStart,
-  logIn,
-  logOut,
+  loadCurrentOfferError
+} from 'store/offer-store/actions';
+import {
+  loadOffersComplete,
+  loadOffersStart,
+  updateOffers
+} from 'store/offers-store/actions';
+import {
+  loadReviewsComplete,
+  loadReviewsStart,
   setReviewPostStatus
-} from 'store/action';
+} from 'store/reviews-store/actions';
+import { redirectToRoute } from './app-store/actions';
 
-export const fetchOffersAction = (): ThunkActionResult =>
+export const fetchOffersAction = (): ThunkActionResult => (
   async (dispatch, _getStore, api): Promise<void> => {
     dispatch(loadOffersStart());
     const { data } = await api.get<OfferResponse[]>(ApiRoute.Offers);
@@ -29,9 +44,10 @@ export const fetchOffersAction = (): ThunkActionResult =>
       adaptOfferToClient(offer)
     ));
     dispatch(loadOffersComplete(normalizedOffers));
-  };
+  }
+);
 
-export const fetchCurrentOfferAction = (offerId: string): ThunkActionResult =>
+export const fetchCurrentOfferAction = (offerId: string): ThunkActionResult => (
   async (dispatch, _getStore, api): Promise<void> => {
     dispatch(loadCurrentOfferStart());
     try {
@@ -43,9 +59,10 @@ export const fetchCurrentOfferAction = (offerId: string): ThunkActionResult =>
     } catch {
       dispatch(loadCurrentOfferError());
     }
-  };
+  }
+);
 
-export const fetchNearbyOffersAction = (offerId: string): ThunkActionResult =>
+export const fetchNearbyOffersAction = (offerId: string): ThunkActionResult => (
   async (dispatch, _getStore, api): Promise<void> => {
     dispatch(loadNearbyOffersStart());
     const { data } = await api.get<OfferResponse[]>(
@@ -55,9 +72,10 @@ export const fetchNearbyOffersAction = (offerId: string): ThunkActionResult =>
       adaptOfferToClient(offer)
     ));
     dispatch(loadNearbyOffersComplete(normalizedNearbyOffers));
-  };
+  }
+);
 
-export const fetchReviewsAction = (offerId: string): ThunkActionResult =>
+export const fetchReviewsAction = (offerId: string): ThunkActionResult => (
   async (dispatch, _getStore, api): Promise<void> => {
     dispatch(loadReviewsStart());
     const { data } = await api.get<OfferReviewResponse[]>(
@@ -67,9 +85,46 @@ export const fetchReviewsAction = (offerId: string): ThunkActionResult =>
       adaptReviewToClient(review)
     ));
     dispatch(loadReviewsComplete(normalizedReviews));
-  };
+  }
+);
 
-export const postReviewAction = ({ comment, rating } : NewReview, offerId: string): ThunkActionResult =>
+export const changeFavoriteStatusAction = (
+  offerId: number,
+  isFavorite: boolean,
+  onComplete?: (updatedOffer: Offer) => void,
+): ThunkActionResult => (
+
+  async (dispatch, _getStore, api): Promise<void> => {
+    try {
+      const { data } = await api.post<OfferResponse>(
+        `${ApiRoute.FavoriresOffers}/${offerId}/${Number(!isFavorite)}`,
+      );
+      const normalizedOffer = adaptOfferToClient(data);
+
+      dispatch(updateOffers(normalizedOffer));
+      onComplete && onComplete(normalizedOffer);
+    }
+    catch {
+      dispatch(redirectToRoute(AppRoute.SignIn));
+    }
+  }
+);
+
+export const fetchFavoritesOffersAction = (): ThunkActionResult => (
+  async (dispatch, _getStore, api): Promise<void> => {
+    dispatch(loadFavoritesOffersStart());
+    const { data } = await api.get<OfferResponse[]>(`${ApiRoute.FavoriresOffers}`);
+    const normalizedOffers = data.map((favoriteOffer) => (
+      adaptOfferToClient(favoriteOffer)),
+    );
+    dispatch(loadFavoritesOffersComplete(normalizedOffers));
+  }
+);
+
+export const postReviewAction = (
+  { comment, rating }: NewReview,
+  offerId: string,
+): ThunkActionResult => (
   async (dispatch, _getStore, api) => {
     dispatch(setReviewPostStatus(ReviewPostStatus.Posting));
 
@@ -87,25 +142,35 @@ export const postReviewAction = ({ comment, rating } : NewReview, offerId: strin
     catch {
       dispatch(setReviewPostStatus(ReviewPostStatus.NotPosted));
     }
-  };
+  }
+);
 
-export const checkAuthAction = (): ThunkActionResult =>
+export const checkAuthAction = (): ThunkActionResult => (
   async (dispatch, _getStore, api) => {
     const { data } = await api.get<UserResponse>(ApiRoute.LogIn);
     dispatch(logIn(adaptUserToClient(data)));
-  };
+  }
+);
 
-export const logInAction = ({ login: email, password }: AuthData): ThunkActionResult =>
+export const logInAction = (
+  { login: email, password }: AuthData,
+): ThunkActionResult => (
   async (dispatch, _getStore, api) => {
-    const { data } = await api.post<UserResponse>(ApiRoute.LogIn, { email, password });
+    const { data } = await api.post<UserResponse>(ApiRoute.LogIn, {
+      email,
+      password,
+    });
     saveToken(data.token);
     dispatch(logIn(adaptUserToClient(data)));
-  };
+  }
+);
 
-export const logOutAction = (): ThunkActionResult =>
+export const logOutAction = (): ThunkActionResult => (
   async (dispatch, _getState, api) => {
     api.delete(ApiRoute.LogOut);
     dropToken();
     dispatch(logOut());
-  };
+  }
+);
+
 

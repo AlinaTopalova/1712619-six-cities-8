@@ -36,4 +36,9 @@ export type AuthStore = {
   user: User | null,
 }
 
+export type FavoritesStore = {
+  favoritesOffers: Offer[],
+  isFavoriteOffersLoading: boolean,
+}
+
 export type Store = RootStore;

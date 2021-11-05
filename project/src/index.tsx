@@ -6,8 +6,9 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import { ThunkAppDispatch } from 'types/action';
 import { checkAuthAction, fetchOffersAction } from 'store/api-action';
-import { logOut } from 'store/action';
+import { logOut } from 'store/auth-store/actions';
 import { rootReducer } from 'store/root-reducer';
+import { redirect } from 'store/middlewares/redirect';
 import { createAPI } from 'services/api';
 import App from 'app/app';
 
@@ -19,6 +20,7 @@ export const store = createStore(
   rootReducer,
   composeWithDevTools(
     applyMiddleware(thunk.withExtraArgument(api)),
+    applyMiddleware(redirect),
   ),
 );
 

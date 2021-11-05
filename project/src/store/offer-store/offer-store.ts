@@ -21,6 +21,10 @@ export const offerReducer = (state = initialState, action: Actions): OfferStore 
       return {
         ...state, isCurrentOfferLoadingError: true, isCurrentOfferLoading: false,
       };
+    case ActionType.UpdateCurrentOffer:
+      return {
+        ...state, currentOffer: action.payload,
+      };
     default:
       return state;
   }
