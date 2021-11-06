@@ -6,7 +6,7 @@ type ReviewProps = {
 }
 
 const formatDateDisplayValue = (date: string) =>
-  new Date(date).toLocaleDateString('en-US', {day: 'numeric', month: 'long'});
+  new Date(date).toLocaleDateString('en-US', {year: 'numeric', month: 'long'});
 
 const formatDateAttribute = (date: string) =>
   new Date(date).toLocaleDateString('en-CA');

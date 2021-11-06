@@ -3,7 +3,7 @@ import { AuthData } from 'types/auth-data';
 import { OfferResponse, Offer } from 'types/offers';
 import { OfferReviewResponse, NewReview } from 'types/reviews';
 import { UserResponse } from 'types/user';
-import { ReviewPostStatus, ApiRoute, AppRoute } from 'const';
+import { ReviewPostStatus, ApiRoute } from 'const';
 import {
   adaptOfferToClient,
   adaptReviewToClient,
@@ -34,7 +34,6 @@ import {
   loadReviewsStart,
   setReviewPostStatus
 } from 'store/reviews-store/actions';
-import { redirectToRoute } from './app-store/actions';
 
 export const fetchOffersAction = (): ThunkActionResult => (
   async (dispatch, _getStore, api): Promise<void> => {
@@ -95,18 +94,13 @@ export const changeFavoriteStatusAction = (
 ): ThunkActionResult => (
 
   async (dispatch, _getStore, api): Promise<void> => {
-    try {
-      const { data } = await api.post<OfferResponse>(
-        `${ApiRoute.FavoriresOffers}/${offerId}/${Number(!isFavorite)}`,
-      );
-      const normalizedOffer = adaptOfferToClient(data);
+    const { data } = await api.post<OfferResponse>(
+      `${ApiRoute.FavoriresOffers}/${offerId}/${Number(!isFavorite)}`,
+    );
+    const normalizedOffer = adaptOfferToClient(data);
 
-      dispatch(updateOffers(normalizedOffer));
-      onComplete && onComplete(normalizedOffer);
-    }
-    catch {
-      dispatch(redirectToRoute(AppRoute.SignIn));
-    }
+    dispatch(updateOffers(normalizedOffer));
+    onComplete && onComplete(normalizedOffer);
   }
 );
 
@@ -172,5 +166,3 @@ export const logOutAction = (): ThunkActionResult => (
     dispatch(logOut());
   }
 );
-
-

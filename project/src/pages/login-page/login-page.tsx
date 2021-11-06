@@ -1,16 +1,24 @@
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useMemo, useRef } from 'react';
 import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { AppRoute, AuthStatus } from 'const';
+import { AppRoute, AuthStatus, Cities } from 'const';
+import { getRandomCity } from 'utils';
 import { getAuthStatus } from 'store/auth-store/selectors';
 import { logInAction } from 'store/api-action';
 import Header from 'shared/header/header';
-import { Cities } from 'const';
-import { getRandomCity } from 'utils';
-import { Link } from 'react-router-dom';
+
 import { changeCurrentCity } from 'store/app-store/actions';
 
 const citiesList = Object.values(Cities);
+
+const validateEmail = (email: string) => {
+  const emailReg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  if (!emailReg.test(email)) {
+    return 'Enter a valid email';
+  }
+  return '';
+};
 
 const validatePassword = (password: string) => {
   const passwordReg = /(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]+/;
@@ -34,16 +42,18 @@ function LoginPage(): JSX.Element {
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const handleFieldsChange = (evt: FormEvent<HTMLFormElement>) => {
-    if (loginRef.current && passwordRef.current) {
-      const passwordValue = passwordRef.current.value;
-      if (passwordValue !== '') {
-        passwordRef.current.setCustomValidity(validatePassword(passwordValue));
-        passwordRef.current.reportValidity();
-      }
+    if (evt.target === loginRef.current) {
+      loginRef.current.setCustomValidity(validateEmail(loginRef.current.value));
+      loginRef.current.reportValidity();
+    }
+    if (evt.target === passwordRef.current) {
+      passwordRef.current.setCustomValidity(validatePassword(passwordRef.current.value));
+      passwordRef.current.reportValidity();
     }
   };
 
-  const randomCity = getRandomCity(citiesList);
+  const randomCity = useMemo(() =>
+    getRandomCity(citiesList), []);
 
   const handleCityLinkClick = (city: Cities) => {
     dispatch(changeCurrentCity(city));
