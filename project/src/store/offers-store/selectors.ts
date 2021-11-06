@@ -1,9 +1,10 @@
-import { StoreNameSpace } from 'store/root-reducer';
+import { createSelector } from 'reselect';
 import { Offer } from 'types/offers';
 import { Store } from 'types/store';
-import { createSelector } from 'reselect';
-import { getCurrentCity, getSortOffersBy } from 'store/app-store/selectors';
 import { SortOptions } from 'const';
+import { getCurrentCity, getSortOffersBy } from 'store/app-store/selectors';
+import { StoreNameSpace } from 'store/root-reducer';
+
 
 export const getOffers = (store: Store): Offer[] =>
   store[StoreNameSpace.offers].offers;

@@ -1,7 +1,9 @@
+import { Cities } from 'const';
+
 export type Offer = {
   bedrooms: number,
   city: {
-    name: string,
+    name: Cities,
     location: {
       latitude: number,
       longitude: number,

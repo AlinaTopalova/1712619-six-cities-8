@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Offer } from 'types/offers';
 import { AppRoute } from 'const';
@@ -24,9 +23,10 @@ type OfferCardProps = {
   imageHeight?: string,
   onMouseEnter?: (offerData: Offer) => void,
   onMouseLeave?: () => void,
+  onFavoriteClick?: (offerId: number, isFavorite: boolean) => void,
 };
 
-type SpecificOfferCardProps = Pick<OfferCardProps, 'offerData' | 'onMouseEnter' | 'onMouseLeave'>;
+type SpecificOfferCardProps = Pick<OfferCardProps, 'offerData' | 'onMouseEnter' | 'onMouseLeave' | 'onFavoriteClick'>;
 
 function OfferCard(props: OfferCardProps): JSX.Element {
   const {
@@ -38,9 +38,8 @@ function OfferCard(props: OfferCardProps): JSX.Element {
     imageWidth = PreviewImgSize.default.width,
     onMouseEnter,
     onMouseLeave,
+    onFavoriteClick,
   } = props;
-
-  const [favoriteOffer, setFavoriteOffer] = useState(0);
 
   const handleMouseEnter = () => {
     onMouseEnter && onMouseEnter(offerData);
@@ -50,8 +49,8 @@ function OfferCard(props: OfferCardProps): JSX.Element {
     onMouseLeave && onMouseLeave();
   };
 
-  const handleFavoriteBtnClick = () => {
-    favoriteOffer ? setFavoriteOffer(0) : setFavoriteOffer(1);
+  const handleFavoriteClick = () => {
+    onFavoriteClick && onFavoriteClick(offerData.id, offerData.isFavorite);
   };
 
   return (
@@ -83,9 +82,9 @@ function OfferCard(props: OfferCardProps): JSX.Element {
             </span>
           </div>
           <button
-            onClick={handleFavoriteBtnClick}
+            onClick={handleFavoriteClick}
             className={`place-card__bookmark-button button
-            ${favoriteOffer ? 'place-card__bookmark-button--active' : ''}`}
+            ${offerData.isFavorite ? 'place-card__bookmark-button--active' : ''}`}
             type="button"
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">

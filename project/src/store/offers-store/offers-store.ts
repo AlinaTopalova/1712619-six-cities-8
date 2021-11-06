@@ -16,6 +16,15 @@ export const offersReducer = (state = initialState, action: Actions): OffersStor
       return {
         ...state, offers: action.payload, isOffersLoading: false,
       };
+    case ActionType.UpdateOffers:
+      return {
+        ...state, offers: state.offers.map((offer) => {
+          if (offer.id !== action.payload.id) {
+            return offer;
+          }
+          return action.payload;
+        }),
+      };
     default:
       return state;
   }

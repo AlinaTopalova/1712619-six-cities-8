@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Cities } from 'const';
-import { changeCurrentCity } from 'store/action';
+import { changeCurrentCity } from 'store/app-store/actions';
 import { getCurrentCity } from 'store/app-store/selectors';
 import {
   getIsOffersLoading,

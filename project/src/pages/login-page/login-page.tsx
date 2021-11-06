@@ -1,13 +1,27 @@
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useMemo, useRef } from 'react';
 import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { AppRoute, AuthStatus } from 'const';
+import { AppRoute, AuthStatus, Cities } from 'const';
+import { getRandomCity } from 'utils';
 import { getAuthStatus } from 'store/auth-store/selectors';
 import { logInAction } from 'store/api-action';
 import Header from 'shared/header/header';
 
+import { changeCurrentCity } from 'store/app-store/actions';
+
+const citiesList = Object.values(Cities);
+
+const validateEmail = (email: string) => {
+  const emailReg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  if (!emailReg.test(email)) {
+    return 'Enter a valid email';
+  }
+  return '';
+};
+
 const validatePassword = (password: string) => {
-  const passwordReg = /[a-z][0-9]/;
+  const passwordReg = /(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]+/;
 
   if (password.includes(' ')) {
     return 'Password must not contain a space';
@@ -28,10 +42,21 @@ function LoginPage(): JSX.Element {
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const handleFieldsChange = (evt: FormEvent<HTMLFormElement>) => {
-    if (loginRef.current && passwordRef.current) {
+    if (evt.target === loginRef.current) {
+      loginRef.current.setCustomValidity(validateEmail(loginRef.current.value));
+      loginRef.current.reportValidity();
+    }
+    if (evt.target === passwordRef.current) {
       passwordRef.current.setCustomValidity(validatePassword(passwordRef.current.value));
       passwordRef.current.reportValidity();
     }
+  };
+
+  const randomCity = useMemo(() =>
+    getRandomCity(citiesList), []);
+
+  const handleCityLinkClick = (city: Cities) => {
+    dispatch(changeCurrentCity(city));
   };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
@@ -94,9 +119,15 @@ function LoginPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="login.html">
-                <span>Amsterdam</span>
-              </a>
+              <Link
+                onClick={() => {
+                  handleCityLinkClick(randomCity as Cities);
+                }}
+                className="locations__item-link"
+                to={AppRoute.Main}
+              >
+                <span>{randomCity}</span>
+              </Link>
             </div>
           </section>
         </div>

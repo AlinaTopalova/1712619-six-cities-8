@@ -1,6 +1,6 @@
-import { StoreNameSpace } from 'store/root-reducer';
 import { Offer } from 'types/offers';
 import { Store } from 'types/store';
+import { StoreNameSpace } from 'store/root-reducer';
 
 export const getCurrentOffer = (store: Store): Offer | null =>
   store[StoreNameSpace.offer].currentOffer;

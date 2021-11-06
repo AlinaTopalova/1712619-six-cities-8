@@ -1,6 +1,6 @@
 import { Cities, SortOptions } from 'const';
-import { StoreNameSpace } from 'store/root-reducer';
 import { Store } from 'types/store';
+import { StoreNameSpace } from 'store/root-reducer';
 
 export const getCurrentCity = (store: Store): Cities =>
   store[StoreNameSpace.app].currentCity;

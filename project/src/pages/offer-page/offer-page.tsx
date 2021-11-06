@@ -6,9 +6,11 @@ import { calcRatingStarsWidth } from 'utils';
 import {
   fetchReviewsAction,
   fetchCurrentOfferAction,
-  fetchNearbyOffersAction
+  fetchNearbyOffersAction,
+  changeFavoriteStatusAction
 } from 'store/api-action';
 import { getAuthStatus } from 'store/auth-store/selectors';
+import { updateCurrentOffer } from 'store/offer-store/actions';
 import {
   getCurrentOffer,
   getIsCurrentOfferLoading,
@@ -18,6 +20,7 @@ import {
   getIsReviewsLoading,
   getReviews
 } from 'store/reviews-store/selectors';
+import { updateNearbyOffers } from 'store/nearby-offers-store/actions';
 import {
   getIsNearbyOffersLoading,
   getNearbyOffers
@@ -53,11 +56,28 @@ function OfferPage(): JSX.Element {
 
   const { offerId } = useParams<{ offerId: string }>();
 
-  useEffect(() => {
-    dispatch(fetchCurrentOfferAction(offerId));
-    dispatch(fetchReviewsAction(offerId));
-    dispatch(fetchNearbyOffersAction(offerId));
-  },[dispatch, offerId]);
+
+  const handleOfferFavoriteClick = () => {
+    if (currentOffer) {
+      dispatch(changeFavoriteStatusAction(
+        currentOffer.id,
+        currentOffer.isFavorite,
+        (updatedOffer) => {
+          dispatch(updateCurrentOffer(updatedOffer));
+        },
+      ));
+    }
+  };
+
+  const handleNearbyFavoriteClick = (currentOfferId: number, isFavorite: boolean) => {
+    dispatch(changeFavoriteStatusAction(
+      currentOfferId,
+      isFavorite,
+      (updatedOffer) => {
+        dispatch(updateNearbyOffers(updatedOffer));
+      },
+    ));
+  };
 
   const offers = useMemo(() => {
     if (!currentOffer) {
@@ -65,6 +85,13 @@ function OfferPage(): JSX.Element {
     }
     return [...nearbyOffers, currentOffer];
   }, [currentOffer, nearbyOffers]);
+
+
+  useEffect(() => {
+    dispatch(fetchCurrentOfferAction(offerId));
+    dispatch(fetchReviewsAction(offerId));
+    dispatch(fetchNearbyOffersAction(offerId));
+  },[dispatch, offerId]);
 
   const renderPageContent = () => {
     if (isCurrentOfferLoadingError) {
@@ -103,7 +130,12 @@ function OfferPage(): JSX.Element {
                   <h1 className="property__name">
                     {currentOffer.title}
                   </h1>
-                  <button className="property__bookmark-button button" type="button">
+                  <button
+                    className={`property__bookmark-button button button
+                    ${currentOffer.isFavorite ? 'property__bookmark-button--active' :''}`}
+                    type="button"
+                    onClick={handleOfferFavoriteClick}
+                  >
                     <svg className="property__bookmark-icon" width="31" height="33">
                       <use xlinkHref="#icon-bookmark"></use>
                     </svg>
@@ -202,7 +234,11 @@ function OfferPage(): JSX.Element {
                 <h2 className="near-places__title">Other places in the neighbourhood</h2>
                 <div className="near-places__list places__list">
                   {nearbyOffers.map((nearbyOffer) => (
-                    <OfferCard.Offer key={nearbyOffer.id} offerData={nearbyOffer} />
+                    <OfferCard.Offer
+                      onFavoriteClick={handleNearbyFavoriteClick}
+                      key={nearbyOffer.id}
+                      offerData={nearbyOffer}
+                    />
                   ))}
                 </div>
               </section>

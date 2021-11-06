@@ -10,6 +10,7 @@ export const enum ApiRoute {
   Reviews = '/comments',
   LogIn = '/login',
   LogOut  = '/logout',
+  FavoriresOffers = '/favorite',
 }
 
 export enum SortOptions {

@@ -5,6 +5,7 @@ import { offersReducer } from './offers-store/offers-store';
 import { nearbyOffersReducer } from './nearby-offers-store/nearby-offers-store';
 import { offerReducer } from './offer-store/offer-store';
 import { reviewsReducer } from './reviews-store/reviews-store';
+import { favoritesReducer } from './favorites-store/favorites-store';
 
 export enum StoreNameSpace {
   app = 'APP',
@@ -13,6 +14,7 @@ export enum StoreNameSpace {
   nearbyOffers = 'NEARBY_OFFERS',
   offer = 'OFFER',
   reviews = 'REVIEWS',
+  favoritesOffers = 'FAVORITES_OFFERS',
 }
 
 export const rootReducer = combineReducers({
@@ -22,6 +24,7 @@ export const rootReducer = combineReducers({
   [StoreNameSpace.nearbyOffers]: nearbyOffersReducer,
   [StoreNameSpace.offer]: offerReducer,
   [StoreNameSpace.reviews]: reviewsReducer,
+  [StoreNameSpace.favoritesOffers]: favoritesReducer,
 });
 
 export type RootStore = ReturnType<typeof rootReducer>;
