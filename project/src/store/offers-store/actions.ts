@@ -6,16 +6,22 @@ import {
 } from 'types/action';
 import { Offer } from 'types/offers';
 
-export const loadOffersComplete = (offers: Offer[]): LoadOffersCompleteAction => ({
+const loadOffersComplete = (offers: Offer[]): LoadOffersCompleteAction => ({
   type: ActionType.LoadOffersComplete,
   payload: offers,
 });
 
-export const loadOffersStart = (): LoadOffersStartAction => ({
+const loadOffersStart = (): LoadOffersStartAction => ({
   type: ActionType.LoadOffersStart,
 });
 
-export const updateOffers = (offer: Offer): UpdateOffersAction => ({
+const updateOffers = (offer: Offer): UpdateOffersAction => ({
   type: ActionType.UpdateOffers,
   payload: offer,
 });
+
+export {
+  loadOffersComplete,
+  loadOffersStart,
+  updateOffers
+};

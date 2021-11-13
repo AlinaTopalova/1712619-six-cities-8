@@ -5,9 +5,9 @@ import { User, UserResponse } from 'types/user';
 
 const RATING_TO_STARS_RATIO = 20;
 
-export const calcRatingStarsWidth = (rating: number): string => `${Math.round(rating) * RATING_TO_STARS_RATIO}%`;
+const calcRatingStarsWidth = (rating: number): string => `${Math.round(rating) * RATING_TO_STARS_RATIO}%`;
 
-export const adaptOfferToClient = (offerData: OfferResponse): Offer => ({
+const adaptOfferToClient = (offerData: OfferResponse): Offer => ({
   bedrooms: offerData.bedrooms,
   city: {
     name: offerData.city.name,
@@ -42,7 +42,7 @@ export const adaptOfferToClient = (offerData: OfferResponse): Offer => ({
   rating: offerData.rating,
 });
 
-export const adaptReviewToClient = (reviewData: OfferReviewResponse): OfferReview => ({
+const adaptReviewToClient = (reviewData: OfferReviewResponse): OfferReview => ({
   id: reviewData.id,
   user: {
     id: reviewData.user.id,
@@ -55,7 +55,7 @@ export const adaptReviewToClient = (reviewData: OfferReviewResponse): OfferRevie
   date: reviewData.date,
 });
 
-export const adaptUserToClient = (userData: UserResponse): User => ({
+const adaptUserToClient = (userData: UserResponse): User => ({
   avatarUrl: userData.avatar_url,
   email: userData.email,
   id: userData.id,
@@ -64,7 +64,15 @@ export const adaptUserToClient = (userData: UserResponse): User => ({
   token: userData.token,
 });
 
-export const getRandomCity = (arr: Cities[]): Cities => {
+const getRandomCity = (arr: Cities[]): Cities => {
   const rand = Math.floor(Math.random() * arr.length);
   return arr[rand];
+};
+
+export {
+  adaptOfferToClient,
+  adaptReviewToClient,
+  adaptUserToClient,
+  calcRatingStarsWidth,
+  getRandomCity
 };

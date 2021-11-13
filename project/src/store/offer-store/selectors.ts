@@ -2,11 +2,17 @@ import { Offer } from 'types/offers';
 import { Store } from 'types/store';
 import { StoreNameSpace } from 'store/root-reducer';
 
-export const getCurrentOffer = (store: Store): Offer | null =>
+const getCurrentOffer = (store: Store): Offer | null =>
   store[StoreNameSpace.offer].currentOffer;
 
-export const getIsCurrentOfferLoading = (store: Store): boolean =>
+const getIsCurrentOfferLoading = (store: Store): boolean =>
   store[StoreNameSpace.offer].isCurrentOfferLoading;
 
-export const getIsCurrentOfferLoadingError = (store: Store): boolean =>
+const getIsCurrentOfferLoadingError = (store: Store): boolean =>
   store[StoreNameSpace.offer].isCurrentOfferLoadingError;
+
+export {
+  getCurrentOffer,
+  getIsCurrentOfferLoading,
+  getIsCurrentOfferLoadingError
+};

@@ -1,26 +1,26 @@
-export const enum AppRoute {
+const enum AppRoute {
   Main = '/',
   SignIn = '/login',
   Favorites = '/favorites',
   Offer = '/offer',
 }
 
-export const enum ApiRoute {
+const enum ApiRoute {
   Offers = '/hotels',
   Reviews = '/comments',
   LogIn = '/login',
   LogOut  = '/logout',
-  FavoriresOffers = '/favorite',
+  FavoritesOffers = '/favorite',
 }
 
-export enum SortOptions {
+enum SortOptions {
   Popular = 'Popular',
   PriceLowToHigh= 'Price: low to high',
   PriceHighToLow = 'Price: high to low',
   TopRated = 'Top rated first',
 }
 
-export enum Cities {
+enum Cities {
   Paris = 'Paris',
   Cologne = 'Cologne',
   Brussels = 'Brussels',
@@ -29,15 +29,24 @@ export enum Cities {
   Dusseldorf = 'Dusseldorf',
 }
 
-export enum AuthStatus {
+enum AuthStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
 
-export enum ReviewPostStatus {
+enum ReviewPostStatus {
   Pristine = 'PRISTINE',
   Posting = 'POSTING',
   Posted = 'POSTED',
   NotPosted = 'NOT_POSTED',
 }
+
+export {
+  AppRoute,
+  ApiRoute,
+  SortOptions,
+  Cities,
+  AuthStatus,
+  ReviewPostStatus
+};
