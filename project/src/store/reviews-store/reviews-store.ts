@@ -8,7 +8,7 @@ const initialState: ReviewsStore = {
   reviewPostStatus : ReviewPostStatus.Pristine,
 };
 
-export const reviewsReducer = (state = initialState, action: Actions): ReviewsStore => {
+const reviewsReducer = (state = initialState, action: Actions): ReviewsStore => {
   switch (action.type) {
     case ActionType.LoadReviewsStart:
       return {
@@ -27,3 +27,5 @@ export const reviewsReducer = (state = initialState, action: Actions): ReviewsSt
       return state;
   }
 };
+
+export { reviewsReducer };

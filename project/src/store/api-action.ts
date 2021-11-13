@@ -35,7 +35,7 @@ import {
   setReviewPostStatus
 } from 'store/reviews-store/actions';
 
-export const fetchOffersAction = (): ThunkActionResult => (
+const fetchOffersAction = (): ThunkActionResult => (
   async (dispatch, _getStore, api): Promise<void> => {
     dispatch(loadOffersStart());
     const { data } = await api.get<OfferResponse[]>(ApiRoute.Offers);
@@ -46,7 +46,7 @@ export const fetchOffersAction = (): ThunkActionResult => (
   }
 );
 
-export const fetchCurrentOfferAction = (offerId: string): ThunkActionResult => (
+const fetchCurrentOfferAction = (offerId: string): ThunkActionResult => (
   async (dispatch, _getStore, api): Promise<void> => {
     dispatch(loadCurrentOfferStart());
     try {
@@ -61,7 +61,7 @@ export const fetchCurrentOfferAction = (offerId: string): ThunkActionResult => (
   }
 );
 
-export const fetchNearbyOffersAction = (offerId: string): ThunkActionResult => (
+const fetchNearbyOffersAction = (offerId: string): ThunkActionResult => (
   async (dispatch, _getStore, api): Promise<void> => {
     dispatch(loadNearbyOffersStart());
     const { data } = await api.get<OfferResponse[]>(
@@ -74,7 +74,7 @@ export const fetchNearbyOffersAction = (offerId: string): ThunkActionResult => (
   }
 );
 
-export const fetchReviewsAction = (offerId: string): ThunkActionResult => (
+const fetchReviewsAction = (offerId: string): ThunkActionResult => (
   async (dispatch, _getStore, api): Promise<void> => {
     dispatch(loadReviewsStart());
     const { data } = await api.get<OfferReviewResponse[]>(
@@ -87,7 +87,7 @@ export const fetchReviewsAction = (offerId: string): ThunkActionResult => (
   }
 );
 
-export const changeFavoriteStatusAction = (
+const changeFavoriteStatusAction = (
   offerId: number,
   isFavorite: boolean,
   onComplete?: (updatedOffer: Offer) => void,
@@ -95,7 +95,7 @@ export const changeFavoriteStatusAction = (
 
   async (dispatch, _getStore, api): Promise<void> => {
     const { data } = await api.post<OfferResponse>(
-      `${ApiRoute.FavoriresOffers}/${offerId}/${Number(!isFavorite)}`,
+      `${ApiRoute.FavoritesOffers}/${offerId}/${Number(!isFavorite)}`,
     );
     const normalizedOffer = adaptOfferToClient(data);
 
@@ -104,10 +104,10 @@ export const changeFavoriteStatusAction = (
   }
 );
 
-export const fetchFavoritesOffersAction = (): ThunkActionResult => (
+const fetchFavoritesOffersAction = (): ThunkActionResult => (
   async (dispatch, _getStore, api): Promise<void> => {
     dispatch(loadFavoritesOffersStart());
-    const { data } = await api.get<OfferResponse[]>(`${ApiRoute.FavoriresOffers}`);
+    const { data } = await api.get<OfferResponse[]>(`${ApiRoute.FavoritesOffers}`);
     const normalizedOffers = data.map((favoriteOffer) => (
       adaptOfferToClient(favoriteOffer)),
     );
@@ -115,7 +115,7 @@ export const fetchFavoritesOffersAction = (): ThunkActionResult => (
   }
 );
 
-export const postReviewAction = (
+const postReviewAction = (
   { comment, rating }: NewReview,
   offerId: string,
 ): ThunkActionResult => (
@@ -139,15 +139,15 @@ export const postReviewAction = (
   }
 );
 
-export const checkAuthAction = (): ThunkActionResult => (
+const checkAuthAction = (): ThunkActionResult => (
   async (dispatch, _getStore, api) => {
     const { data } = await api.get<UserResponse>(ApiRoute.LogIn);
     dispatch(logIn(adaptUserToClient(data)));
   }
 );
 
-export const logInAction = (
-  { login: email, password }: AuthData,
+const logInAction = (
+  { email, password }: AuthData,
 ): ThunkActionResult => (
   async (dispatch, _getStore, api) => {
     const { data } = await api.post<UserResponse>(ApiRoute.LogIn, {
@@ -159,10 +159,23 @@ export const logInAction = (
   }
 );
 
-export const logOutAction = (): ThunkActionResult => (
+const logOutAction = (): ThunkActionResult => (
   async (dispatch, _getState, api) => {
     api.delete(ApiRoute.LogOut);
     dropToken();
     dispatch(logOut());
   }
 );
+
+export {
+  fetchOffersAction,
+  fetchCurrentOfferAction,
+  fetchNearbyOffersAction,
+  fetchReviewsAction,
+  changeFavoriteStatusAction,
+  fetchFavoritesOffersAction,
+  postReviewAction,
+  checkAuthAction,
+  logInAction,
+  logOutAction
+};

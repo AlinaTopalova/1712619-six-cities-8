@@ -7,7 +7,7 @@ const initialState: AppStore = {
   sortOffersBy: SortOptions.Popular,
 };
 
-export const appReducer = (state = initialState, action: Actions): AppStore => {
+const appReducer = (state = initialState, action: Actions): AppStore => {
   switch (action.type) {
     case ActionType.ChangeCurrentCity:
       return {
@@ -21,3 +21,5 @@ export const appReducer = (state = initialState, action: Actions): AppStore => {
       return state;
   }
 };
+
+export { appReducer };

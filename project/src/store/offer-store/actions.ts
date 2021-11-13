@@ -7,20 +7,27 @@ import {
 } from 'types/action';
 import { Offer } from 'types/offers';
 
-export const loadCurrentOfferComplete = (currentOffer: Offer): LoadCurrentOfferCompleteAction => ({
+const loadCurrentOfferComplete = (currentOffer: Offer): LoadCurrentOfferCompleteAction => ({
   type: ActionType.LoadCurrentOfferComplete,
   payload: currentOffer,
 });
 
-export const loadCurrentOfferStart = (): LoadCurrentOfferStartAction => ({
+const loadCurrentOfferStart = (): LoadCurrentOfferStartAction => ({
   type: ActionType.LoadCurrentOfferStart,
 });
 
-export const loadCurrentOfferError = (): LoadCurrentOfferErrorAction => ({
+const loadCurrentOfferError = (): LoadCurrentOfferErrorAction => ({
   type: ActionType.LoadCurrentOfferError,
 });
 
-export const updateCurrentOffer = (offer: Offer): UpdateCurrentOfferAction => ({
+const updateCurrentOffer = (offer: Offer): UpdateCurrentOfferAction => ({
   type: ActionType.UpdateCurrentOffer,
   payload: offer,
 });
+
+export {
+  loadCurrentOfferComplete,
+  loadCurrentOfferStart,
+  loadCurrentOfferError,
+  updateCurrentOffer
+};

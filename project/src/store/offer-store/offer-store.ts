@@ -7,7 +7,7 @@ const initialState: OfferStore = {
   isCurrentOfferLoadingError: false,
 };
 
-export const offerReducer = (state = initialState, action: Actions): OfferStore => {
+const offerReducer = (state = initialState, action: Actions): OfferStore => {
   switch (action.type) {
     case ActionType.LoadCurrentOfferStart:
       return {
@@ -29,3 +29,5 @@ export const offerReducer = (state = initialState, action: Actions): OfferStore 
       return state;
   }
 };
+
+export { offerReducer };

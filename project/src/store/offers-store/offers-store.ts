@@ -6,7 +6,7 @@ const initialState: OffersStore = {
   isOffersLoading: false,
 };
 
-export const offersReducer = (state = initialState, action: Actions): OffersStore => {
+const offersReducer = (state = initialState, action: Actions): OffersStore => {
   switch (action.type) {
     case ActionType.LoadOffersStart:
       return {
@@ -29,3 +29,5 @@ export const offersReducer = (state = initialState, action: Actions): OffersStor
       return state;
   }
 };
+
+export { offersReducer };

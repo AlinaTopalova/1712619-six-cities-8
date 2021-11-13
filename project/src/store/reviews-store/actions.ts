@@ -9,18 +9,24 @@ import {
   ReviewPostStatus
 } from 'const';
 
-export const loadReviewsComplete = (
+const loadReviewsComplete = (
   reviews: OfferReview[],
 ): LoadReviewsCompleteAction => ({
   type: ActionType.LoadReviewsComplete,
   payload: reviews,
 });
 
-export const loadReviewsStart = (): LoadReviewsStartAction  => ({
+const loadReviewsStart = (): LoadReviewsStartAction  => ({
   type: ActionType.LoadReviewsStart,
 });
 
-export const setReviewPostStatus = (reviewPostStatus: ReviewPostStatus): SetReviewPostStatusAction => ({
+const setReviewPostStatus = (reviewPostStatus: ReviewPostStatus): SetReviewPostStatusAction => ({
   type: ActionType.SetReviewPostStatus,
   payload: reviewPostStatus,
 });
+
+export {
+  loadReviewsComplete,
+  loadReviewsStart,
+  setReviewPostStatus
+};

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Offer } from 'types/offers';
-import SortOffers from './sort-offers/sort-offers';
+import { changeFavoriteStatusAction } from 'store/api-action';
+import NoOffers from './no-offers/no-offers';
 import OfferCard from 'shared/offer-card/offer-card';
 import OffersMap from 'shared/offers-map/offers-map';
-import NoOffers from './no-offers/no-offers';
-import { changeFavoriteStatusAction } from 'store/api-action';
+import SortOffers from './sort-offers/sort-offers';
 
 type OffersListProps = {
   currentCity: string,

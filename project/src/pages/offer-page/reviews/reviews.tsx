@@ -8,7 +8,7 @@ type ReviewsProps = {
   reviews: OfferReview[],
 }
 
-export default function Reviews(props: ReviewsProps): JSX.Element {
+function Reviews(props: ReviewsProps): JSX.Element {
   const { reviews } = props;
 
   const reviewsToDisplay = useMemo(() =>
@@ -31,3 +31,5 @@ export default function Reviews(props: ReviewsProps): JSX.Element {
     </>
   );
 }
+
+export default Reviews;

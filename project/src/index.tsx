@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Router as BrowserRouter} from 'react-router-dom';
 import {ToastContainer} from 'react-toastify';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,6 +16,7 @@ import { logOut } from 'store/auth-store/actions';
 import { rootReducer } from 'store/root-reducer';
 import { redirect } from 'store/middlewares/redirect';
 import { createAPI } from 'services/api';
+import browserHistory from './browser-history';
 import App from 'app/app';
 
 
@@ -28,7 +30,7 @@ const api = createAPI({
   onServerError: () => toast.error(ERROR_MESSAGE),
 });
 
-export const store = createStore(
+const store = createStore(
   rootReducer,
   composeWithDevTools(
     applyMiddleware(thunk.withExtraArgument(api)),
@@ -42,9 +44,13 @@ export const store = createStore(
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastContainer />
-      <App />
+      <BrowserRouter history={browserHistory}>
+        <ToastContainer />
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'),
 );
+
+export { store };

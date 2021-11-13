@@ -6,7 +6,7 @@ const initialState: NearbyOffersStore = {
   isNearbyOffersLoading: false,
 };
 
-export const nearbyOffersReducer = (state = initialState, action: Actions): NearbyOffersStore => {
+const nearbyOffersReducer = (state = initialState, action: Actions): NearbyOffersStore => {
   switch (action.type) {
     case ActionType.LoadNearbyOffersStart:
       return {
@@ -29,3 +29,5 @@ export const nearbyOffersReducer = (state = initialState, action: Actions): Near
       return state;
   }
 };
+
+export { nearbyOffersReducer };

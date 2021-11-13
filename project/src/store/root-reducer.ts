@@ -7,7 +7,7 @@ import { offerReducer } from './offer-store/offer-store';
 import { reviewsReducer } from './reviews-store/reviews-store';
 import { favoritesReducer } from './favorites-store/favorites-store';
 
-export enum StoreNameSpace {
+enum StoreNameSpace {
   app = 'APP',
   auth = 'AUTH',
   offers = 'OFFERS',
@@ -17,7 +17,7 @@ export enum StoreNameSpace {
   favoritesOffers = 'FAVORITES_OFFERS',
 }
 
-export const rootReducer = combineReducers({
+const rootReducer = combineReducers({
   [StoreNameSpace.app]: appReducer,
   [StoreNameSpace.auth]: authReducer,
   [StoreNameSpace.offers]: offersReducer,
@@ -28,3 +28,8 @@ export const rootReducer = combineReducers({
 });
 
 export type RootStore = ReturnType<typeof rootReducer>;
+
+export {
+  StoreNameSpace,
+  rootReducer
+};

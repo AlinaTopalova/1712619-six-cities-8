@@ -2,22 +2,24 @@ import { createSelector } from 'reselect';
 import { Offer } from 'types/offers';
 import { Store } from 'types/store';
 import { SortOptions } from 'const';
-import { getCurrentCity, getSortOffersBy } from 'store/app-store/selectors';
+import {
+  getCurrentCity,
+  getSortOffersBy
+} from 'store/app-store/selectors';
 import { StoreNameSpace } from 'store/root-reducer';
 
-
-export const getOffers = (store: Store): Offer[] =>
+const getOffers = (store: Store): Offer[] =>
   store[StoreNameSpace.offers].offers;
 
-export const getIsOffersLoading = (store: Store): boolean =>
+const getIsOffersLoading = (store: Store): boolean =>
   store[StoreNameSpace.offers].isOffersLoading;
 
-export const getFilteredOffers = createSelector(
+const getFilteredOffers = createSelector(
   [getOffers, getCurrentCity],
   (offers, city) => offers.filter((offer) => city === offer.city.name),
 );
 
-export const getSortedOffers = createSelector(
+const getSortedOffers = createSelector(
   [getFilteredOffers, getSortOffersBy],
   (offers, sortOffersBy) => {
     const offersCopy = [...offers];
@@ -34,3 +36,10 @@ export const getSortedOffers = createSelector(
     }
   },
 );
+
+export {
+  getOffers,
+  getIsOffersLoading,
+  getFilteredOffers,
+  getSortedOffers
+};

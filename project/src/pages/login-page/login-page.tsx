@@ -5,10 +5,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AppRoute, AuthStatus, Cities } from 'const';
 import { getRandomCity } from 'utils';
 import { getAuthStatus } from 'store/auth-store/selectors';
+import { changeCurrentCity } from 'store/app-store/actions';
 import { logInAction } from 'store/api-action';
 import Header from 'shared/header/header';
-
-import { changeCurrentCity } from 'store/app-store/actions';
 
 const citiesList = Object.values(Cities);
 
@@ -63,7 +62,7 @@ function LoginPage(): JSX.Element {
     evt.preventDefault();
     if (loginRef.current && passwordRef.current) {
       dispatch(logInAction({
-        login: loginRef.current.value,
+        email: loginRef.current.value,
         password: passwordRef.current.value,
       }));
     }
@@ -76,7 +75,7 @@ function LoginPage(): JSX.Element {
   return (
     <div className="page page--gray page--login">
       <Header showUserBlock={false}/>
-      <main className="page__main page__main--login">
+      <main className="page__main page__main--login" data-testid="login-main">
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>

@@ -7,7 +7,7 @@ const initialState: AuthStore = {
   user: null,
 };
 
-export const authReducer = (state = initialState, action: Actions): AuthStore => {
+const authReducer = (state = initialState, action: Actions): AuthStore => {
   switch (action.type) {
     case ActionType.LogIn:
       return {
@@ -25,3 +25,5 @@ export const authReducer = (state = initialState, action: Actions): AuthStore =>
       return state;
   }
 };
+
+export { authReducer };
